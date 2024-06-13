@@ -1,8 +1,9 @@
 import wollok.game.*
-import pepita.*
+import sounds.*
 
 program juego {
 	game.title("Juego Base")
-	game.addVisual(pepita)
+	
+	soundManager.playIngameMusic1()
 	game.start()
 }
