@@ -4,7 +4,7 @@ import sounds.*
 
 program juego {
 	game.title("Juego Base")
-	uiController.initialize()
-	soundManager.playIngameMusic1()
+	uiController.initialize()	
+	musicPlayer.playIngameMusic1()
 	game.start()
 }
