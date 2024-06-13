@@ -4,6 +4,6 @@ import sounds.*
 program juego {
 	game.title("Juego Base")
 	
-	soundManager.playIngameMusic1()
+	musicPlayer.playIngameMusic1()
 	game.start()
 }
