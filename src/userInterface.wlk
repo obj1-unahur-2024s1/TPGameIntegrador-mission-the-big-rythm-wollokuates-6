@@ -9,9 +9,9 @@ class UserInterface {
 	}
 	
 	method initialize() {
-		game.width(1920)
-		game.height(1080)
-		game.cellSize(1)
+		game.width(100)
+		game.height(60)
+		game.cellSize(10)
 		self.changeBackground("UI/wip_background.jpg")
 		game.addVisual(startGame)
 		
@@ -48,18 +48,10 @@ class LabelCounter inherits Label {
 	}
 }
 
-object startGame inherits Label(text = "Press Enter to Start the game") {
-	
-}
+const startGame = new Label(text = "Press Enter to Start the game")
 
-object lifeCounter inherits LabelCounter(text = 3, position = game.center().left(150)) {
-	
-}
+const lifeCounter = new LabelCounter(text = 3, position = game.center().left(150))
 
-object scoreCounter inherits LabelCounter(text = 0, position = game.center().right(150)) {
-	
-}
+const scoreCounter = new LabelCounter(text = 0, position = game.center().right(150))
 
-object uiController inherits UserInterface {
-	
-}
+const uiController = new UserInterface()
