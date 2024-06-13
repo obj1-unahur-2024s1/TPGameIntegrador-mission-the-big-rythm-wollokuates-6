@@ -1,11 +1,11 @@
 import wollok.game.*
 
-object soundManager {
+class SoundPlayer{
+	method play(sound, delay){game.schedule(delay, {sound.play()})}
+}
+
+object soundManager inherits SoundPlayer{
 	const ingameMusic1 = game.sound("audio/music/MainThemeSeaQ.mp3")
 	
-	method playIngameMusic1(){
-		game.schedule(1000, { ingameMusic1.play() })
-	}
-
-
+	method playIngameMusic1(){self.play(ingameMusic1, 1000)}
 }
