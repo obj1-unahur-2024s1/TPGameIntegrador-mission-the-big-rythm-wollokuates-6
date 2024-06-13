@@ -1,6 +1,8 @@
 import wollok.game.*
+import sounds.*
 
 class UserInterface {
+	var gameStarted = false
 	
 	method changeBackground(newImage) {
 		game.boardGround(newImage)
@@ -11,21 +13,50 @@ class UserInterface {
 		game.height(1080)
 		game.cellSize(1)
 		self.changeBackground("UI/wip_background.jpg")
-		game.addVisual(playBtn)
-		game.say(playBtn, "Play") 
+		game.addVisual(startGame)
+		
+		keyboard.enter().onPressDo { if(!gameStarted) self.startGame() }
+	}
+	
+	method startGame() {
+		gameStarted = true
+		game.removeVisual(startGame)
+		game.addVisual(lifeCounter)
+		game.addVisual(scoreCounter)
 	}
 }
 
-class Button {
-	var property position
-	var property image
+object colorPick {
+	method white() = "FFFFFF"
 }
 
 class Label {
+	var property position = game.center()
+	var text
+	var property textColor = colorPick.white()
+	
+	method text() = text.toString()
+	
+	method updateText(newText) {
+		text = newText
+	}
+}
+
+class LabelCounter inherits Label {
+	method updateCounter(value) {
+		self.updateText(text + value)
+	}
+}
+
+object startGame inherits Label(text = "Press Enter to Start the game") {
 	
 }
 
-object playBtn inherits Button(position = game.center(), image = "UI/asset/Buttons/Rect-Medium/PlayIcon/Default.png") {
+object lifeCounter inherits LabelCounter(text = 3, position = game.center().left(150)) {
+	
+}
+
+object scoreCounter inherits LabelCounter(text = 0, position = game.center().right(150)) {
 	
 }
 
