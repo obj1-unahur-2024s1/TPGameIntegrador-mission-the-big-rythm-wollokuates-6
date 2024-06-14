@@ -12,7 +12,7 @@ class MusicPlayer{
 	const defaultMusicVolume = 0.4
 
 	method stopAllMusic(){
-		(1..trackList.size()).forEach {n => if(n == nowPlaying) {trackList.get(n-1).stop()}}
+		if (nowPlaying != 0) trackList.get(nowPlaying-1).stop()
 		nowPlaying = 0
 	}
 
@@ -24,10 +24,10 @@ class MusicPlayer{
 		nowPlaying = trackNumber
 	}
 	
-	method playMenuMusic(){}
+	method playMenuMusic(){self.setAndPlay(menuMusic,1,true,defaultMusicVolume,300)}
 	method playIngameMusic1(){self.setAndPlay(ingameMusic1,2,true,defaultMusicVolume,1800)}
-	method playBossMusic(){}
-	method playGameOverMusic(){}
+	method playBossMusic(){self.setAndPlay(bossMusic,3,true,defaultMusicVolume,300)}
+	method playGameOverMusic(){self.setAndPlay(gameOverMusic,4,true,defaultMusicVolume,300)}
 	
 }
 
