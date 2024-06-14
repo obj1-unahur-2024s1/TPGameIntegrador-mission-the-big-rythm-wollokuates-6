@@ -1,76 +1,37 @@
 import wollok.game.*
 
-class SoundPlayer{
-	method play(sound, delay){game.schedule(delay, {sound.play()})}
-	method stop(sound){sound.stop()}
-}
-
-class MusicPlayer inherits SoundPlayer{
+class MusicPlayer{
 	const menuMusic = game.sound("audio/music/MainThemeSeaQ.mp3")
 	const ingameMusic1 = game.sound("audio/music/MainThemeSeaQ.mp3")
 	const bossMusic = game.sound("audio/music/MainThemeSeaQ.mp3")
 	const gameOverMusic = game.sound("audio/music/MainThemeSeaQ.mp3")
-	var isPlayingMenuMusic = false
-	var isPlayingIngameMusic1 = false
-	var isPlayingBossMusic = false
-	var isPlayingGameOverMusic = false
-	const musicVolume = 0.4
-
-	method setTrackConfig(track,loop){
-		track.shouldLoop(loop)
-		track.volume(musicVolume)
-	}
 	
+	const trackList = [menuMusic,ingameMusic1,bossMusic,gameOverMusic]
+	var nowPlaying = 0
+	
+	const defaultMusicVolume = 0.4
+
 	method stopAllMusic(){
-		if (isPlayingMenuMusic) {
-			self.stop(menuMusic)
-			isPlayingMenuMusic = false
-		}
-		if (isPlayingIngameMusic1) {
-			self.stop(ingameMusic1)
-			isPlayingIngameMusic1 = false
-		}
-		if (isPlayingBossMusic) {
-			self.stop(bossMusic)
-			isPlayingBossMusic = false
-		}
-		if (isPlayingGameOverMusic) {
-			self.stop(gameOverMusic)
-			isPlayingGameOverMusic = false
-		}
+		(1..trackList.size()).forEach {n => if(n == nowPlaying) {trackList.get(n+1).stop()}}
+		nowPlaying = 0
 	}
 
-	method playMenuMusic(){
-		self.setTrackConfig(menuMusic,true)
+	method setAndPlay(track,trackNumber,loop,volume,delay){
 		self.stopAllMusic()
-		self.play(menuMusic, 1000)
-		isPlayingMenuMusic = true
+		track.shouldLoop(loop)
+		track.volume(volume)
+		game.schedule(delay, {track.play()})
+		nowPlaying = trackNumber
 	}
 	
-	method playIngameMusic1(){
-		self.setTrackConfig(ingameMusic1,true)
-		self.stopAllMusic()
-		self.play(ingameMusic1, 1000)
-		isPlayingIngameMusic1 = true
-	}
-	
-	method playBossMusic(){
-		self.setTrackConfig(bossMusic,true)
-		self.stopAllMusic()
-		self.play(bossMusic, 1000)
-		isPlayingBossMusic = true
-	}
-	
-	method playGameOverMusic(){
-		self.setTrackConfig(gameOverMusic,true)
-		self.stopAllMusic()
-		self.play(gameOverMusic, 1000)
-		isPlayingGameOverMusic = true
-	}
+	method playMenuMusic(){self.setAndPlay(menuMusic,1,true,defaultMusicVolume,1000)}
+	method playIngameMusic1(){self.setAndPlay(ingameMusic1,2,true,defaultMusicVolume,1800)}
+	method playBossMusic(){self.setAndPlay(bossMusic,3,true,defaultMusicVolume,1000)}
+	method playGameOverMusic(){self.setAndPlay(gameOverMusic,4,false,defaultMusicVolume,1000)}
 	
 }
 
-class FxPlayer inherits SoundPlayer{
+class FxPlayer {
 	
 }
 
