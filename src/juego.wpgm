@@ -1,8 +1,11 @@
 import wollok.game.*
 import gameManager.*
+import sounds.*
 
 program juego {
 	
 	gameManager.iniciar()
+	musicPlayer.playIngameMusic1()
 	game.start()
+	
 }
