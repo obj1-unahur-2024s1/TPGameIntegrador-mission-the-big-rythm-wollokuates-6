@@ -1,0 +1,14 @@
+import wollok.game.*
+import personaje.*
+import proyectil.*
+
+program juego {
+	game.width(100)
+	game.height(60)
+	game.cellSize(16)
+	game.title("Juego Base")
+	
+	personaje.inicializar()
+	
+	game.start()
+}
