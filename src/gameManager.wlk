@@ -2,6 +2,7 @@ import wollok.game.*
 import sounds.*
 import personaje.*
 import proyectil.*
+import userInterface.*
 
 object gameManager {
 	var difficulty
@@ -12,6 +13,7 @@ object gameManager {
 		self.agregarVisuales()
 		personaje.inicializar()
 		musicPlayer.playIngameMusic1()
+		uiController.startUI()
 	}
 	method config(){
 		game.title("Ocean Quest")

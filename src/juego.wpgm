@@ -1,9 +1,8 @@
 import wollok.game.*
 import gameManager.*
-
 program juego {
 	
 	gameManager.iniciar()
 	game.start()
-	
+
 }
