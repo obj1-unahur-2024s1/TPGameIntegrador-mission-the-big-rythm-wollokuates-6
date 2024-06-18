@@ -1,5 +1,7 @@
 import wollok.game.*
 import sounds.*
+import personaje.*
+import proyectil.*
 
 object gameManager {
 	var difficulty
@@ -8,6 +10,7 @@ object gameManager {
 	method iniciar(){
 		self.config()
 		self.agregarVisuales()
+		personaje.inicializar()
 		musicPlayer.playIngameMusic1()
 	}
 	method config(){
@@ -22,7 +25,6 @@ object gameManager {
 	method makeLevel(){
 		/*
 		 * instanciar:
-		 * pj
 		 * ui
 		 * enemigos
 		 */
