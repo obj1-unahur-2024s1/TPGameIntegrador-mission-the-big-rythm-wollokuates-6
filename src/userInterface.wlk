@@ -52,35 +52,27 @@ class UserInterface {
 	}
 	
 	method showHideMainScreen() {
-		pressEnterLabel.toggleVisibility()
-		gameTitle.toggleVisibility()
+		self.toggleVisibilityAll([pressEnterLabel, gameTitle])
 	}
 	
 	method showHideLifeCounter() {
-		lifeLabel.toggleVisibility()
-		unitNumberLife.toggleVisibility()
+		self.toggleVisibilityAll([lifeLabel, unitNumberLife])
 	}
 	
 	method showHideScoreCounter() {
-		scoreLabel.toggleVisibility()
-		thousandNumberScore.toggleVisibility()
-		hundredNumberScore.toggleVisibility()
-		dozensNumberScore.toggleVisibility()
-		unitNumberScore.toggleVisibility()
+		self.toggleVisibilityAll([scoreLabel, thousandNumberScore, hundredNumberScore, dozensNumberScore, unitNumberScore])
 	}
 	
 	method showHideOxygenCounter() {
-		oxygenLabel.toggleVisibility()
-		hundredNumberOxy.toggleVisibility()
-		dozensNumberOxy.toggleVisibility()
-		unitNumberOxy.toggleVisibility()
+		self.toggleVisibilityAll([oxygenLabel, hundredNumberOxy, dozensNumberOxy, unitNumberOxy])
 	}
 	
 	method showHideSelectDifficulty() {
-		selectLabel.toggleVisibility()
-		pressNumLabel.toggleVisibility()
-		easyLabel.toggleVisibility()
-		hardLabel.toggleVisibility()
+		self.toggleVisibilityAll([selectLabel, pressNumLabel, easyLabel, hardLabel])
+	}
+	
+	method toggleVisibilityAll(toggleList){
+		toggleList.forEach({x => x.toggleVisibility()})
 	}
 }
 
