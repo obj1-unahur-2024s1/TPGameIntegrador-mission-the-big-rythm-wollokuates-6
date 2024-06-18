@@ -1,5 +1,5 @@
 import wollok.game.*
-import pepita.*
+import sounds.*
 
 object gameManager {
 	var difficulty
@@ -8,6 +8,7 @@ object gameManager {
 	method iniciar(){
 		self.config()
 		self.agregarVisuales()
+		musicPlayer.playIngameMusic1()
 	}
 	method config(){
 		game.title("Ocean Quest")
@@ -16,7 +17,7 @@ object gameManager {
 		game.height(60)
 	}
 	method agregarVisuales(){
-		game.addVisual(pepita)
+		//game.addVisual(pepita)
 	}
 	method makeLevel(){
 		/*
