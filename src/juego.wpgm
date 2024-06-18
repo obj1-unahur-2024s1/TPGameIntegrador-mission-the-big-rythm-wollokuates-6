@@ -2,6 +2,7 @@ import wollok.game.*
 import personaje.*
 import proyectil.*
 import sounds.*
+import userInterface.*
 
 program juego {
 
@@ -9,8 +10,8 @@ program juego {
 	game.height(60)
 	game.cellSize(16)
 	game.title("Juego Base")
-	personaje.inicializar()
 	musicPlayer.playIngameMusic1()
-	game.start()
+	uiController.startUI()
 	
+	game.start()
 }
