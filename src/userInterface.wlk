@@ -2,75 +2,145 @@ import wollok.game.*
 
 class UserInterface {
 	var gameStarted = false
+	var diffMenu = false
 	
 	method changeBackground(newImage) {
 		game.boardGround(newImage)
 	}
 	
 	method startUI() {
-		game.width(100)
-		game.height(60)
-		game.cellSize(16)
-		self.changeBackground("UI/wip_background.jpg")
-		game.addVisual(pressEnterLabel)
+		self.changeBackground("UI/Backgrounds/mainBackground.png")
+		self.showHideMainScreen()
 		
-		keyboard.enter().onPressDo { if(!gameStarted) self.showDifficultySelector() }
+		keyboard.enter().onPressDo { if(!gameStarted && !diffMenu) self.startDifficultySelector() }
 	}
 	
-	method showDifficultySelector() {
-		game.removeVisual(pressEnterLabel)
-		self.startGame()
+	method startDifficultySelector() {
+		diffMenu = true
+		self.showHideMainScreen()
+		self.showHideSelectDifficulty()
+		
+		keyboard.num1().onPressDo { if(!gameStarted) self.startGame() }
+		keyboard.num2().onPressDo { if(!gameStarted) self.startGame() }
 	}
 	
 	method startGame() {
 		gameStarted = true
-		
-		game.addVisual(lifeCounter)
-		
-		game.addVisual(thousandNumber)
-		game.addVisual(hundredNumber)
-		game.addVisual(dozensNumber)
-		game.addVisual(unitNumber)
+		self.showHideSelectDifficulty()
+		self.showHideLifeCounter()
+		self.showHideScoreCounter()
+		self.showHideOxygenCounter()
 	}
 	
 	method updateScore(newScore) {
 		const newScoreString = newScore.toString().reverse() + "000"
-		unitNumber.number(newScoreString.charAt(0))
-		dozensNumber.number(newScoreString.charAt(1))
-		hundredNumber.number(newScoreString.charAt(2))
-		thousandNumber.number(newScoreString.charAt(3))
+		unitNumberScore.number(newScoreString.charAt(0))
+		dozensNumberScore.number(newScoreString.charAt(1))
+		hundredNumberScore.number(newScoreString.charAt(2))
+		thousandNumberScore.number(newScoreString.charAt(3))
+	}
+	
+	method updateOxygen(newValue) {
+		const newValueString = newValue.toString().reverse() + "00"
+		unitNumberScore.number(newValueString.charAt(0))
+		dozensNumberScore.number(newValueString.charAt(1))
+		hundredNumberScore.number(newValueString.charAt(2))
+	}
+	
+	method updateLifes(newValue) { 
+		unitNumberLife.number(newValue.toString())
+	}
+	
+	method showHideMainScreen() {
+		pressEnterLabel.toggleVisibility()
+		gameTitle.toggleVisibility()
+	}
+	
+	method showHideLifeCounter() {
+		lifeLabel.toggleVisibility()
+		unitNumberLife.toggleVisibility()
+	}
+	
+	method showHideScoreCounter() {
+		scoreLabel.toggleVisibility()
+		thousandNumberScore.toggleVisibility()
+		hundredNumberScore.toggleVisibility()
+		dozensNumberScore.toggleVisibility()
+		unitNumberScore.toggleVisibility()
+	}
+	
+	method showHideOxygenCounter() {
+		oxygenLabel.toggleVisibility()
+		hundredNumberOxy.toggleVisibility()
+		dozensNumberOxy.toggleVisibility()
+		unitNumberOxy.toggleVisibility()
+	}
+	
+	method showHideSelectDifficulty() {
+		selectLabel.toggleVisibility()
+		pressNumLabel.toggleVisibility()
+		easyLabel.toggleVisibility()
+		hardLabel.toggleVisibility()
 	}
 }
 
-object colorPick {
-	method white() = "FFFFFF"
+class ToggleVisibility {
+	method toggleVisibility() {
+		if(game.hasVisual(self)) {
+			game.removeVisual(self)
+		} else {
+			game.addVisual(self)
+		}
+	}
+	
+	method show() {
+		game.addVisual(self)
+	}
+	
+	method hide() {
+		game.removeVisual(self)
+	}
 }
 
-class GameScreenText {
+class TextImage inherits ToggleVisibility {
 	var property position = game.center()
-	var text
-	var property textColor = colorPick.white()
-	
-	method text() = text.toString()
-	
-	method updateText(newText) {
-		text = newText
-	}
+	var property image
 }
 
-const pressEnterLabel = new GameScreenText(text = "Press Enter to Start the game")
-const lifeCounter = new GameScreenText(text = 3, position = game.center().left(10))
-const uiController = new UserInterface()
-
-class PointNumber {
+class PointNumber inherits ToggleVisibility {
 	var property number = 0
 	const position
 	method image() = "UI/Numbers/num_"+ self.number().toString() + ".png"
 	method position() = position
 }
 
-const thousandNumber = new PointNumber(position = game.at(20, 30))
-const hundredNumber = new PointNumber(position = game.at(30, 30))
-const dozensNumber = new PointNumber(position = game.at(40, 30))
-const unitNumber = new PointNumber(position = game.at(50, 30))
+//--Labels--
+const pressEnterLabel = new TextImage(image = "UI/Text/press_enter.png", position = game.center().down(10).left(20))
+const gameTitle = new TextImage(image = "UI/Text/game_title.png", position = game.center().left(30))
 
+//Life Label
+const lifeLabel = new TextImage(image = "UI/Text/lifes.png", position = game.center().up(27).right(40))
+const unitNumberLife = new PointNumber(position = game.center().up(25).right(42))
+
+//Score Label
+const scoreLabel = new TextImage(image = "UI/Text/score.png", position = game.center().up(27).left(3))
+const thousandNumberScore = new PointNumber(position = game.center().up(25).left(3))
+const hundredNumberScore = new PointNumber(position = game.center().up(25).left(1))
+const dozensNumberScore = new PointNumber(position = game.center().up(25).right(1))
+const unitNumberScore = new PointNumber(position = game.center().up(25).right(3))
+
+//Oxygen Label
+const oxygenLabel = new TextImage(image = "UI/Text/oxygen.png", position = game.center().down(28).left(48))
+const hundredNumberOxy = new PointNumber(position = game.center().down(28).left(38))
+const dozensNumberOxy = new PointNumber(position = game.center().down(28).left(36))
+const unitNumberOxy = new PointNumber(position = game.center().down(28).left(34))
+
+//Select Difficulty
+const selectLabel = new TextImage(image = "UI/Text/select_difficulty.png", position = game.center().up(10).left(15))
+const pressNumLabel = new TextImage(image = "UI/Text/press_number.png", position = game.center().up(8).left(15))
+const easyLabel = new TextImage(image = "UI/Text/easy.png", position = game.center().up(2).left(6))
+const hardLabel = new TextImage(image = "UI/Text/hard.png", position = game.center().down(2).left(6))
+
+
+//Create the UI
+const uiController = new UserInterface()
