@@ -1,6 +1,6 @@
 import wollok.game.*
 import proyectil.*
-//import gameManager.*
+import gameManager.*
 
 class Personaje {
 	
@@ -74,7 +74,7 @@ class Personaje {
 	
 	method chocarCon(objeto) { 
 		if(objeto.className() == "personaje.tester") self.perderVida()
-		else if(objeto.className() == "rescatados.Buzo") self.recoger() 
+		else if(objeto.className() == "Buzo") self.recoger(objeto.puntos()) 
 	}
 	
 	method perderVida() { 
@@ -88,9 +88,9 @@ class Personaje {
 		oxigeno = 100
 	}
 	
-	method recoger() {/*gameManager.aumentarPuntaje(puntaje) */}
+	method recoger(puntaje) {gameManager.aumentarPuntaje(puntaje) }
 	
-	method morir() {/*gameManager.gameOver()*/}
+	method morir() {gameManager.gameOver()}
 	
 	method inicializar() {
 		game.addVisual(self)

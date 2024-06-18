@@ -35,9 +35,13 @@ object gameManager {
 	method gameOver(){
 		
 	}
-	method scoreUp(points){ score = 999.max(score+points) }
+	method aumentarPuntaje(points){ score = 999.max(score+points) }
 	method score() = score
 	method restartScore() { score = 0 }
 	method difficulty() = difficulty
 	method difficulty(newDifficulty){ difficulty = newDifficulty }
+}
+
+class Buzo{
+	method puntos() = 5 
 }
