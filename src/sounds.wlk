@@ -27,7 +27,7 @@ class MusicPlayer{
 	method playMenuMusic(){self.setAndPlay(menuMusic,1,true,defaultMusicVolume,300)}
 	method playIngameMusic1(){self.setAndPlay(ingameMusic1,2,true,defaultMusicVolume,1800)}
 	method playBossMusic(){self.setAndPlay(bossMusic,3,true,defaultMusicVolume,300)}
-	method playGameOverMusic(){self.setAndPlay(gameOverMusic,4,true,defaultMusicVolume,300)}
+	method playGameOverMusic(){self.setAndPlay(gameOverMusic,4,false,defaultMusicVolume,300)}
 	
 }
 
