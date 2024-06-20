@@ -12,7 +12,7 @@ class UserInterface {
 		self.changeBackground("UI/Backgrounds/mainBackground.png")
 		self.showHideMainScreen()
 		
-		keyboard.enter().onPressDo { if(!gameStarted && !diffMenu) self.startDifficultySelector() }
+		//keyboard.enter().onPressDo { if(!gameStarted && !diffMenu) self.startDifficultySelector() }
 	}
 	
 	method startDifficultySelector() {
@@ -20,8 +20,8 @@ class UserInterface {
 		self.showHideMainScreen()
 		self.showHideSelectDifficulty()
 		
-		keyboard.num1().onPressDo { if(!gameStarted) self.startGame() }
-		keyboard.num2().onPressDo { if(!gameStarted) self.startGame() }
+		/*keyboard.num1().onPressDo { if(!gameStarted) self.startGame() }
+		keyboard.num2().onPressDo { if(!gameStarted) self.startGame() } */
 	}
 	
 	method startGame() {
@@ -74,6 +74,9 @@ class UserInterface {
 	method toggleVisibilityAll(toggleList){
 		toggleList.forEach({x => x.toggleVisibility()})
 	}
+	
+	method gameStarted() = gameStarted
+	method diffMenu() = diffMenu
 }
 
 class ToggleVisibility {

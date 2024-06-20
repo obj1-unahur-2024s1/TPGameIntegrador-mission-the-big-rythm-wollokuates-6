@@ -68,6 +68,7 @@ class Personaje {
 	
 	method controladorDeOxigeno(valor, superficie){
 		oxigeno = if(position.y() < topeAlto) (oxigeno - valor).max(0) else (oxigeno + valor).min(100)
+		gameManager.updateOxygen(oxigeno)
 		if(oxigeno == 0) self.perderVida()
 		console.println("Oxigeno: " + oxigeno)
 	}
@@ -79,6 +80,7 @@ class Personaje {
 	
 	method perderVida() { 
 		vidas = (vidas - 1).max(0)
+		gameManager.updateLife(vidas)
 		if(vidas == 0) self.morir() else self.reset()
 		console.println("Perdiste una vida, te quedan: " + vidas)
 	}
@@ -86,6 +88,7 @@ class Personaje {
 	method reset(){
 		position = origen
 		oxigeno = 100
+		gameManager.updateOxygen(oxigeno)
 	}
 	
 	method recoger(puntaje) {gameManager.aumentarPuntaje(puntaje) }
@@ -110,3 +113,11 @@ object utilidades {
 const personaje = new Personaje()
 
 
+class Buzo{
+	var property estaEnEscena = false
+	var position 
+	
+	method image() { return "buzo.png" }
+	method position() { return position }
+	method puntos() = 5 
+}
