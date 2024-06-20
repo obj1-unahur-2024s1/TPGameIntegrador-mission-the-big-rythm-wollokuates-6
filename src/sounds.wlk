@@ -32,11 +32,21 @@ class MusicPlayer{
 }
 
 class FxPlayer {
-	method playShoot(){}
-	method playPlayerDie(){}
-	method playEnemyDie(){}
-	method playKrakenAttack(){}
-	method playKrakenDie(){}
+	const defaultSfxVolume = 0.5
+	
+	method setAndPlay(track,loop,volume){
+		track.shouldLoop(loop)
+		track.volume(volume)
+		track.play()
+	}
+	
+	method playShoot(){self.setAndPlay(game.sound("audio/sfx/Shoot.mp3"),false,defaultSfxVolume)}
+	method playPlayerDie(){self.setAndPlay(game.sound("audio/sfx/PlayerDie.mp3"),false,defaultSfxVolume)}
+	method playEnemyDie1(){self.setAndPlay(game.sound("audio/sfx/EnemyDie1.mp3"),false,defaultSfxVolume)}
+	method playEnemyDie2(){self.setAndPlay(game.sound("audio/sfx/EnemyDie2.mp3"),false,defaultSfxVolume)}
+	method playKrakenAttack(){self.setAndPlay(game.sound("audio/sfx/KrakenAttack.mp3"),false,defaultSfxVolume)}
+	method playKrakenDie(){self.setAndPlay(game.sound("audio/sfx/KrakenDie.mp3"),false,defaultSfxVolume)}
+	method playBubble(){self.setAndPlay(game.sound("audio/sfx/Bubble.mp3"),false,defaultSfxVolume)}
 }
 
 const musicPlayer = new MusicPlayer()
