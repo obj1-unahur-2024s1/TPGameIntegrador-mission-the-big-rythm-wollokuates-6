@@ -1,17 +1,8 @@
 import wollok.game.*
-import personaje.*
-import proyectil.*
-import sounds.*
-import userInterface.*
-
+import gameManager.*
 program juego {
-
-	game.width(100)
-	game.height(60)
-	game.cellSize(16)
-	game.title("Juego Base")
-	musicPlayer.playIngameMusic1()
-	uiController.startUI()
 	
+	gameManager.start()
 	game.start()
+
 }
