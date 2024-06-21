@@ -23,6 +23,7 @@ object gameManager {
 	method menu(){
 		self.restartScore()
 		musicPlayer.playIngameMusic1()
+		fxPlayer.playBubbles()
 		uiController.startUI()
 		keyboard.enter().onPressDo { if(!uiController.gameStarted() && !uiController.diffMenu()) self.difficultySelection()}
 	}
