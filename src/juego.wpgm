@@ -1,8 +1,12 @@
 import wollok.game.*
-import pepita.*
+import configTablero.*
+import enemigos.*
+
 
 program juego {
-	game.title("Juego Base")
-	game.addVisual(pepita)
+	game.title("Prueba Enemigos")
+	configuracionTablero.configurar()
+
 	game.start()
+	
 }
