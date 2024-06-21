@@ -15,7 +15,7 @@ class Personaje {
 	var direccionDisparo = 1
 	var puedeDisparar = true
 	
-	method image() { return "pepita.png" }
+	method image() { return "sprites/submarino.png" }
 	method position() { return position }
 	method position(x,y) { position = game.at(x,y) }
 	method habilitarDisparo() { puedeDisparar = true }
