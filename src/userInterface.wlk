@@ -12,7 +12,7 @@ class UserInterface {
 		self.changeBackground("UI/Backgrounds/mainBackground.png")
 		self.showHideMainScreen()
 		
-		keyboard.enter().onPressDo { if(!gameStarted && !diffMenu) self.startDifficultySelector() }
+		//keyboard.enter().onPressDo { if(!gameStarted && !diffMenu) self.startDifficultySelector() }
 	}
 	
 	method startDifficultySelector() {
@@ -20,8 +20,8 @@ class UserInterface {
 		self.showHideMainScreen()
 		self.showHideSelectDifficulty()
 		
-		keyboard.num1().onPressDo { if(!gameStarted) self.startGame() }
-		keyboard.num2().onPressDo { if(!gameStarted) self.startGame() }
+		/*keyboard.num1().onPressDo { if(!gameStarted) self.startGame() }
+		keyboard.num2().onPressDo { if(!gameStarted) self.startGame() } */
 	}
 	
 	method startGame() {
@@ -52,36 +52,31 @@ class UserInterface {
 	}
 	
 	method showHideMainScreen() {
-		pressEnterLabel.toggleVisibility()
-		gameTitle.toggleVisibility()
+		self.toggleVisibilityAll([pressEnterLabel, gameTitle])
 	}
 	
 	method showHideLifeCounter() {
-		lifeLabel.toggleVisibility()
-		unitNumberLife.toggleVisibility()
+		self.toggleVisibilityAll([lifeLabel, unitNumberLife])
 	}
 	
 	method showHideScoreCounter() {
-		scoreLabel.toggleVisibility()
-		thousandNumberScore.toggleVisibility()
-		hundredNumberScore.toggleVisibility()
-		dozensNumberScore.toggleVisibility()
-		unitNumberScore.toggleVisibility()
+		self.toggleVisibilityAll([scoreLabel, thousandNumberScore, hundredNumberScore, dozensNumberScore, unitNumberScore])
 	}
 	
 	method showHideOxygenCounter() {
-		oxygenLabel.toggleVisibility()
-		hundredNumberOxy.toggleVisibility()
-		dozensNumberOxy.toggleVisibility()
-		unitNumberOxy.toggleVisibility()
+		self.toggleVisibilityAll([oxygenLabel, hundredNumberOxy, dozensNumberOxy, unitNumberOxy])
 	}
 	
 	method showHideSelectDifficulty() {
-		selectLabel.toggleVisibility()
-		pressNumLabel.toggleVisibility()
-		easyLabel.toggleVisibility()
-		hardLabel.toggleVisibility()
+		self.toggleVisibilityAll([selectLabel, pressNumLabel, easyLabel, hardLabel])
 	}
+	
+	method toggleVisibilityAll(toggleList){
+		toggleList.forEach({x => x.toggleVisibility()})
+	}
+	
+	method gameStarted() = gameStarted
+	method diffMenu() = diffMenu
 }
 
 class ToggleVisibility {
