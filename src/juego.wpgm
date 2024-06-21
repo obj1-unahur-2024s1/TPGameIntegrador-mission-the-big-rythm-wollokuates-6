@@ -1,12 +1,9 @@
 import wollok.game.*
-import configTablero.*
-import enemigos.*
-
-
+import gameManager.*
 program juego {
-	game.title("Prueba Enemigos")
-	configuracionTablero.configurar()
-
-	game.start()
 	
+	gameManager.start()
+	game.start()
+
+
 }
