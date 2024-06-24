@@ -9,7 +9,7 @@ class MusicPlayer{
 	const trackList = [menuMusic,ingameMusic1,bossMusic,gameOverMusic]
 	var nowPlaying = 0
 	
-	const defaultMusicVolume = 0.4
+	var musicVolume = 0.6
 
 	method stopAllMusic(){
 		//Nota: Se usa la var nowPlaying para saber que track está reproduciéndose que no se le de stop() a un audio que no está en reproducción
@@ -34,25 +34,35 @@ class MusicPlayer{
 	//reproducir un objeto de audio que, aunque esté en stop, haya sido ya reproducido.
 	method playMenuMusic(){
 		menuMusic = game.sound("audio/music/MainThemeSeaQ.mp3")
-		self.setAndPlay(menuMusic,1,true,defaultMusicVolume,20)
+		self.setAndPlay(menuMusic,1,true,musicVolume,20)
 	}
 	method playIngameMusic1(){
 		ingameMusic1 = game.sound("audio/music/MainThemeSeaQ.mp3")
-		self.setAndPlay(ingameMusic1,2,true,defaultMusicVolume,150)
+		self.setAndPlay(ingameMusic1,2,true,musicVolume,150)
 	}
 	method playBossMusic(){
 		bossMusic = game.sound("audio/music/MainThemeSeaQ.mp3")
-		self.setAndPlay(bossMusic,3,true,defaultMusicVolume,20)
+		self.setAndPlay(bossMusic,3,true,musicVolume,20)
 	}
 	method playGameOverMusic(){
 		gameOverMusic = game.sound("audio/music/MainThemeSeaQ.mp3")
-		self.setAndPlay(gameOverMusic,4,true,defaultMusicVolume,20)
+		self.setAndPlay(gameOverMusic,4,true,musicVolume,20)
 	}
 	//DES.: Evaluar si se puede usar loop false en playGameOverMusic(). Ojo que stopAllMusic() puede tirar error.
+	//Necesitaría que al terminar el track, se hiciera nowPlaying = 0 pero como wollok no tiene getter de la reproducción...
+	
+	method volumeUp(){
+		musicVolume = (if (musicVolume >= 0.2) (musicVolume + 0.2) else (musicVolume + 0.1)).min(1)
+		if (nowPlaying != 0) trackList.get(nowPlaying-1).volume(musicVolume)
+	}
+	method volumeDown(){
+		musicVolume = (if (musicVolume > 0.2) (musicVolume - 0.2) else (musicVolume - 0.1)).max(0)
+		if (nowPlaying != 0) trackList.get(nowPlaying-1).volume(musicVolume)
+	}
 }
 
 class FxPlayer {
-	const defaultSfxVolume = 0.5
+	var sfxVolume = 0.6
 	
 	method setAndPlay(track,loop,volume){
 		track.shouldLoop(loop)
@@ -61,23 +71,26 @@ class FxPlayer {
 	}
 	
 	//Nota: Acá no se referencian las pistas a variables ni constantes para que al terminar
-	//de reproducirse, queden sin referencia y se las lleve el recolector de basura
+	//de reproducirse, queden sin referencia y se las lleve el recolector de basura (verificar)
 	
-	method playShoot(){self.setAndPlay(game.sound("audio/sfx/Shoot.mp3"),false,defaultSfxVolume)}
-	method playPlayerDie(){self.setAndPlay(game.sound("audio/sfx/PlayerDie.mp3"),false,defaultSfxVolume)}
-	method playEnemyDie1(){self.setAndPlay(game.sound("audio/sfx/EnemyDie1.mp3"),false,defaultSfxVolume)}
-	method playEnemyDie2(){self.setAndPlay(game.sound("audio/sfx/EnemyDie2.mp3"),false,defaultSfxVolume)}
-	method playKrakenAttack(){self.setAndPlay(game.sound("audio/sfx/KrakenAttack.mp3"),false,defaultSfxVolume)}
-	method playKrakenDie(){self.setAndPlay(game.sound("audio/sfx/KrakenDie.mp3"),false,defaultSfxVolume)}
+	method playShoot(){self.setAndPlay(game.sound("audio/sfx/Shoot.mp3"),false,sfxVolume)}
+	method playPlayerDie(){self.setAndPlay(game.sound("audio/sfx/PlayerDie.mp3"),false,sfxVolume)}
+	method playEnemyDie1(){self.setAndPlay(game.sound("audio/sfx/EnemyDie1.mp3"),false,sfxVolume)}
+	method playEnemyDie2(){self.setAndPlay(game.sound("audio/sfx/EnemyDie2.mp3"),false,sfxVolume)}
+	method playKrakenAttack(){self.setAndPlay(game.sound("audio/sfx/KrakenAttack.mp3"),false,sfxVolume)}
+	method playKrakenDie(){self.setAndPlay(game.sound("audio/sfx/KrakenDie.mp3"),false,sfxVolume)}
 	
 	method delayBubble(){
 		const bubbleSound = game.sound("audio/sfx/Bubble.mp3")
-		const delay = 3000.randomUpTo(9000)
+		const delay = new Range(start = 3000, end = 9000).anyOne()
 		bubbleSound.shouldLoop(false)
-		bubbleSound.volume(defaultSfxVolume)
+		bubbleSound.volume(sfxVolume)
 		game.schedule(delay, {bubbleSound.play()})
 	}
 	method playBubbles(){game.onTick(3500, "playBubble", { => self.delayBubble() })}
+	
+	method volumeUp(){sfxVolume = (if (sfxVolume >= 0.2) (sfxVolume + 0.2) else (sfxVolume + 0.1)).min(1)}
+	method volumeDown(){sfxVolume = (if (sfxVolume > 0.2) (sfxVolume - 0.2) else (sfxVolume - 0.1)).max(0)}
 }
 
 //Instanciaciones:
