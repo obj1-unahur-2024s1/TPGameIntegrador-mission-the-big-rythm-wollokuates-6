@@ -1,7 +1,7 @@
 import wollok.game.*
 import gameManager.*
 import proyectil.*
-
+import animaciones.*
 
 
 class Enemigo {
@@ -12,7 +12,11 @@ class Enemigo {
 	var velocidad = 0
 	var tickID = ""
 	
-	method image() = image
+	var property nombre
+	var property framesAnimacion
+	var property animacion = new Animacion(nombreEntidad = nombre, cantidadFrames = framesAnimacion, direccion = if (estaALaIzq) "L" else "D")
+	method image() = animacion.image()
+	
 	method position() = position
 	
 	method movimiento() { 
@@ -62,7 +66,7 @@ class Enemigo {
 
                                      // ------------------------------------------------------------------ 
 
-class Tiburon inherits Enemigo{
+class Tiburon inherits Enemigo(nombre = "tiburon", framesAnimacion = 3){
 	var tickLanzamiento = ""
 	var puedeDisparar = true
 	
@@ -110,7 +114,7 @@ class Tiburon inherits Enemigo{
 
 							// ------------------------------------------------------------------ 
 
-class Remora inherits Enemigo{
+class Remora inherits Enemigo(nombre = "remora", framesAnimacion = 2){
 	 // Determinar a qué lado va eyectada la remora
 	var disparadaPor 
 	
@@ -127,7 +131,7 @@ class Remora inherits Enemigo{
 
 							// ------------------------------------------------------------------ 
 
-class PezEspada inherits Enemigo{
+class PezEspada inherits Enemigo(nombre = "pezespada", framesAnimacion = 3){
 	// TO DO
 	override method destruidoPorElPlayer(){ // destruye al enemigo y aumenta el puntaje
 		super()
