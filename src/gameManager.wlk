@@ -3,6 +3,7 @@ import sounds.*
 import personaje.*
 import proyectil.*
 import userInterface.*
+import enemigos.*
 
 object gameManager {
 	var difficulty
@@ -37,6 +38,10 @@ object gameManager {
 		difficulty = estaEnFacil
 		uiController.startGame()
 		personaje.inicializar()
+		new Tiburon(position = game.at(25, 40), velocidad = 1000).inicializar()
+		new Tiburon(position = game.at(75, 20), velocidad = 1000).inicializar()
+		new PezEspada(position = game.at(60, 30), velocidad = 200).inicializar()
+		new PezEspada(position = game.at(30, 20), velocidad = 200).inicializar()
 	}
 	
 	//TO DO: cambiar el clean porque rompe todo, usar un metodo que saque solamente lo necesario

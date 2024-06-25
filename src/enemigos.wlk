@@ -1,18 +1,23 @@
 import wollok.game.*
 import gameManager.*
 import proyectil.*
-
+import animaciones.*
 
 
 class Enemigo {
 	var vida = 1
 	var position
-	var image
-	var estaALaIzq = true 
+	var estaALaIzq = self.position().x() < game.center().x() 
 	var velocidad = 0
 	var tickID = ""
+	var image = ""
 	
-	method image() = image
+	var property nombre
+	var property framesAnimacion
+	const animacion = new Animacion(nombreEntidad = nombre, cantidadFrames = framesAnimacion, idAnimacion = self.crearTickID(), direccion = if (estaALaIzq) "D" else "L")
+	
+	method image() = animacion.image()
+	
 	method position() = position
 	
 	method movimiento() { 
@@ -28,6 +33,7 @@ class Enemigo {
 	
 	method morir(){ 
 		game.removeVisual(self)
+		animacion.removeTick()
 		game.removeTickEvent(tickID)
 	}
 	
@@ -38,7 +44,7 @@ class Enemigo {
 	
 	
 	method crearTickID() { // tick id para el enemigo
-		tickID = self.className() + 0.randomUpTo(999).toString() + 0.randomUpTo(999).toString()
+		return self.className() + 0.randomUpTo(999).toString() + 0.randomUpTo(999).toString()
 	}
 	
 	method chocarCon(objeto){ // *
@@ -47,7 +53,7 @@ class Enemigo {
 	}
 	
 	method inicializar(){    // 
-		self.crearTickID()
+		tickID = self.crearTickID()
 		game.addVisual(self)
 		estaALaIzq = self.position().x() < game.center().x() 
 		game.onTick(velocidad, tickID, { => self.movimiento()})
@@ -56,13 +62,13 @@ class Enemigo {
 	}
 	
 	method saleDelTablero(){ // elimina al enemigo al salir del tablero
-		if (position.x() < -3 or position.x() > game.height() + 3) self.morir() 
+		if (position.x() < -3 or position.x() > game.width() + 3) self.morir() 
 	}
 }
 
                                      // ------------------------------------------------------------------ 
 
-class Tiburon inherits Enemigo{
+class Tiburon inherits Enemigo(nombre = "tiburon", framesAnimacion = 3){
 	var tickLanzamiento = ""
 	var puedeDisparar = true
 	
@@ -88,7 +94,7 @@ class Tiburon inherits Enemigo{
 	
 	method crearRemora() {  // Instanciar/crear la remora 
 		self.cambioEstadoDisparo()
-		var remora = new Remora(position = self.position(), image = "bichoPrueba.png", velocidad = 2500, disparadaPor = self)
+		var remora = new Remora(position = self.position(), velocidad = 100, disparadaPor = self)
 		remora.inicializar()
 		
 	}
@@ -110,7 +116,7 @@ class Tiburon inherits Enemigo{
 
 							// ------------------------------------------------------------------ 
 
-class Remora inherits Enemigo{
+class Remora inherits Enemigo(nombre = "remora", framesAnimacion = 2){
 	 // Determinar a qué lado va eyectada la remora
 	var disparadaPor 
 	
@@ -127,7 +133,7 @@ class Remora inherits Enemigo{
 
 							// ------------------------------------------------------------------ 
 
-class PezEspada inherits Enemigo{
+class PezEspada inherits Enemigo(nombre = "pezespada", framesAnimacion = 3){
 	// TO DO
 	override method destruidoPorElPlayer(){ // destruye al enemigo y aumenta el puntaje
 		super()
