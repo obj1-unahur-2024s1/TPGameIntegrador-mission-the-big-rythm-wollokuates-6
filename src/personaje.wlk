@@ -75,7 +75,7 @@ class Personaje {
 	
 	method chocarCon(objeto) { 
 		if(objeto.className() == "personaje.tester") self.perderVida() // ver qué poner depende del tipo de enemigo (va type?)
-		else if(objeto.className() == "Buzo") self.recoger(objeto.puntos()) 
+		else if(objeto.className() == "Buzo") objeto.salvado() 
 	}
 	
 	method perderVida() { 
@@ -91,7 +91,7 @@ class Personaje {
 		gameManager.updateOxygen(oxigeno)
 	}
 	
-	method recoger(puntaje) {gameManager.aumentarPuntaje(puntaje) }
+	method recoger(puntaje) {gameManager.aumentarPuntaje(puntaje) } // quitar metodo
 	
 	method morir() {gameManager.gameOver()}
 	
@@ -115,9 +115,37 @@ const personaje = new Personaje()
 
 class Buzo{
 	var property estaEnEscena = false
-	var position 
+	var position = game.origin()
+	var tickID = ""
+	var estaALaIzq = true
 	
 	method image() { return "buzo.png" }
 	method position() { return position }
-	method puntos() = 5 
+	method crearTickID() { // tick id para el enemigo
+		tickID = self.className() + 0.randomUpTo(999).toString() + 0.randomUpTo(999).toString()
+	}
+	method inicializar(){    // 
+		self.crearTickID()
+		game.addVisual(self)
+		estaALaIzq = self.position().x() < game.center().x() 
+		game.onTick(500, tickID, { => self.movimiento()})
+		
+	}
+	method quitar(){ 
+		game.removeVisual(self)
+		game.removeTickEvent(tickID)
+	}
+	method salvado() {
+		gameManager.aumentarPuntaje(5) 
+		self.quitar()
+	}
+	method movimiento() { 
+		if(estaALaIzq){
+			position = game.at(position.x() + 1, position.y())
+		} else {
+			position = game.at(position.x() - 1, position.y())
+		}
+	
+		if (position.x() < -3 or position.x() > game.height() + 3) self.quitar() 
+	}
 }

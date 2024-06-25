@@ -119,10 +119,6 @@ class Remora inherits Enemigo{
 		disparadaPor.cambioEstadoDisparo()
 	}
 	
-	
-	
-	
-	
 }
 
 							// ------------------------------------------------------------------ 

@@ -38,6 +38,7 @@ object gameManager {
 		difficulty = estaEnFacil
 		uiController.startGame()
 		personaje.inicializar()
+		var divers = [new Buzo(),new Buzo(),new Buzo(),new Buzo(),new Buzo()]
 	}
 	
 	//TO DO: cambiar el clean porque rompe todo, usar un metodo que saque solamente lo necesario
