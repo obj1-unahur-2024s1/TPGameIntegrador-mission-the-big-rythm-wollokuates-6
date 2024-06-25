@@ -3,6 +3,7 @@ import sounds.*
 import personaje.*
 import proyectil.*
 import userInterface.*
+import animaciones.*
 
 object gameManager {
 	var difficulty
