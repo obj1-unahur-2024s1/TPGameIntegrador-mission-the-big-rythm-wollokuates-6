@@ -9,13 +9,14 @@ class Personaje {
 	const topeAlto = 58
 	const velocidad = 2
 	
+	var image = "sprites/submarinoD.png"
 	var vidas = 3
 	var oxigeno = 100
 	var position = origen
 	var direccionDisparo = 1
 	var puedeDisparar = true
 	
-	method image() { return "sprites/submarinoD.png" }
+	method image() { return image }
 	method position() { return position }
 	method position(x,y) { position = game.at(x,y) }
 	method habilitarDisparo() { puedeDisparar = true }
@@ -27,7 +28,7 @@ class Personaje {
 		keyboard.up().onPressDo { self.moverArriba() }
 		keyboard.down().onPressDo { self.moverAbajo() }*/
 		
-		keyboard.a().onPressDo { self.moverIzquierda()  }
+		keyboard.a().onPressDo { self.moverIzquierda() }
 		keyboard.d().onPressDo { self.moverDerecha() }
 		keyboard.w().onPressDo { self.moverArriba() }
 		keyboard.s().onPressDo { self.moverAbajo() }
@@ -40,12 +41,14 @@ class Personaje {
 		const pos = utilidades.clamp(position.x() - velocidad, topeAncho, true)
 		self.position(pos, position.y())
 		direccionDisparo = -1
+		image = "sprites/submarinoL.png"
 	}
 	
 	method moverDerecha() {
 		const pos = utilidades.clamp(position.x() + velocidad, topeAncho, true)
 		self.position(pos, position.y())
 		direccionDisparo = 1
+		image = "sprites/submarinoD.png"
 	}
 	
 	method moverArriba() {
