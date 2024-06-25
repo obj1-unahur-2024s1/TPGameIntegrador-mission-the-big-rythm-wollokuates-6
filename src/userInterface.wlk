@@ -4,6 +4,34 @@ class UserInterface {
 	var gameStarted = false
 	var diffMenu = false
 	
+	//--Labels--
+	const pressEnterLabel = new TextImage(image = "UI/Text/press_enter.png", position = game.center().down(10).left(20))
+	const gameTitle = new TextImage(image = "UI/Text/game_title.png", position = game.center().left(30))
+
+	//Life Label
+	const lifeLabel = new TextImage(image = "UI/Text/lifes.png", position = game.center().up(27).right(40))
+	const unitNumberLife = new PointNumber(position = game.center().up(25).right(42))
+
+	//Score Label
+	const scoreLabel = new TextImage(image = "UI/Text/score.png", position = game.center().up(27).left(3))
+	const thousandNumberScore = new PointNumber(position = game.center().up(25).left(3))
+	const hundredNumberScore = new PointNumber(position = game.center().up(25).left(1))
+	const dozensNumberScore = new PointNumber(position = game.center().up(25).right(1))
+	const unitNumberScore = new PointNumber(position = game.center().up(25).right(3))
+
+	//Oxygen Label
+	const oxygenLabel = new TextImage(image = "UI/Text/oxygen.png", position = game.center().down(28).left(48))
+	const hundredNumberOxy = new PointNumber(position = game.center().down(28).left(38))
+	const dozensNumberOxy = new PointNumber(position = game.center().down(28).left(36))
+	const unitNumberOxy = new PointNumber(position = game.center().down(28).left(34))
+
+	//Select Difficulty
+	const selectLabel = new TextImage(image = "UI/Text/select_difficulty.png", position = game.center().up(10).left(15))
+	const pressNumLabel = new TextImage(image = "UI/Text/press_number.png", position = game.center().up(8).left(15))
+	const easyLabel = new TextImage(image = "UI/Text/easy.png", position = game.center().up(2).left(6))
+	const hardLabel = new TextImage(image = "UI/Text/hard.png", position = game.center().down(2).left(6))
+	
+	//--Methods--
 	method changeBackground(newImage) {
 		game.boardGround(newImage)
 	}
@@ -42,9 +70,9 @@ class UserInterface {
 	
 	method updateOxygen(newValue) {
 		const newValueString = newValue.toString().reverse() + "00"
-		unitNumberScore.number(newValueString.charAt(0))
-		dozensNumberScore.number(newValueString.charAt(1))
-		hundredNumberScore.number(newValueString.charAt(2))
+		unitNumberOxy.number(newValueString.charAt(0))
+		dozensNumberOxy.number(newValueString.charAt(1))
+		hundredNumberOxy.number(newValueString.charAt(2))
 	}
 	
 	method updateLifes(newValue) { 
@@ -108,34 +136,6 @@ class PointNumber inherits ToggleVisibility {
 	method image() = "UI/Numbers/num_"+ self.number().toString() + ".png"
 	method position() = position
 }
-
-//--Labels--
-const pressEnterLabel = new TextImage(image = "UI/Text/press_enter.png", position = game.center().down(10).left(20))
-const gameTitle = new TextImage(image = "UI/Text/game_title.png", position = game.center().left(30))
-
-//Life Label
-const lifeLabel = new TextImage(image = "UI/Text/lifes.png", position = game.center().up(27).right(40))
-const unitNumberLife = new PointNumber(position = game.center().up(25).right(42))
-
-//Score Label
-const scoreLabel = new TextImage(image = "UI/Text/score.png", position = game.center().up(27).left(3))
-const thousandNumberScore = new PointNumber(position = game.center().up(25).left(3))
-const hundredNumberScore = new PointNumber(position = game.center().up(25).left(1))
-const dozensNumberScore = new PointNumber(position = game.center().up(25).right(1))
-const unitNumberScore = new PointNumber(position = game.center().up(25).right(3))
-
-//Oxygen Label
-const oxygenLabel = new TextImage(image = "UI/Text/oxygen.png", position = game.center().down(28).left(48))
-const hundredNumberOxy = new PointNumber(position = game.center().down(28).left(38))
-const dozensNumberOxy = new PointNumber(position = game.center().down(28).left(36))
-const unitNumberOxy = new PointNumber(position = game.center().down(28).left(34))
-
-//Select Difficulty
-const selectLabel = new TextImage(image = "UI/Text/select_difficulty.png", position = game.center().up(10).left(15))
-const pressNumLabel = new TextImage(image = "UI/Text/press_number.png", position = game.center().up(8).left(15))
-const easyLabel = new TextImage(image = "UI/Text/easy.png", position = game.center().up(2).left(6))
-const hardLabel = new TextImage(image = "UI/Text/hard.png", position = game.center().down(2).left(6))
-
 
 //Create the UI
 const uiController = new UserInterface()

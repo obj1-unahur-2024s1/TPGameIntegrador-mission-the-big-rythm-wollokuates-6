@@ -74,7 +74,7 @@ class Personaje {
 	}
 	
 	method chocarCon(objeto) { 
-		if(objeto.className() == "personaje.tester") self.perderVida()
+		if(objeto.className() == "personaje.tester") self.perderVida() // ver qué poner depende del tipo de enemigo (va type?)
 		else if(objeto.className() == "Buzo") self.recoger(objeto.puntos()) 
 	}
 	
