@@ -23,6 +23,14 @@ object gameManager {
 	
 	method menu(){
 		self.restartScore()
+		keyboard.p().onPressDo {
+        	musicPlayer.volumeUp()
+        	fxPlayer.volumeUp()
+    	}
+    	keyboard.l().onPressDo {
+        	musicPlayer.volumeDown()
+        	fxPlayer.volumeDown()
+    	}
 		musicPlayer.playIngameMusic1()
 		fxPlayer.playBubbles()
 		uiController.startUI()
