@@ -23,7 +23,7 @@ object gameManager {
 	
 	method menu(){
 		self.restartScore()
-		musicPlayer.playIngameMusic1()
+		//musicPlayer.playIngameMusic1()
 		fxPlayer.playBubbles()
 		uiController.startUI()
 		keyboard.enter().onPressDo { if(!uiController.gameStarted() && !uiController.diffMenu()) self.difficultySelection()}
@@ -53,8 +53,8 @@ object gameManager {
 		self.menu()
 	}
 	
-	method aumentarPuntaje(points){ 
-		score = 999.min(score+points)
+	method aumentarPuntaje(points){
+		if(points<0) 0.max(score+points) else 999.min(score+points)
 		uiController.updateScore(score)
 	}
 	
