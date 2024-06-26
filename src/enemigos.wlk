@@ -139,11 +139,9 @@ class PezEspada inherits Enemigo{
 							// ------------------------------------------------------------------ 
 									
 class Kraken inherits Enemigo{
-	/* - method cambiarDeLado() ¿?
-	 */
-	method spawnearEnemigo()
+    method cambiarDeLado() 
 	method dispararProyectil()
-	method ataqueTentaculo()
+	
 }
 
 
