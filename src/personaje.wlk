@@ -9,13 +9,14 @@ class Personaje {
 	const topeAlto = 58
 	const velocidad = 2
 	
+	var image = "sprites/submarinoD.png"
 	var vidas = 3
 	var oxigeno = 100
 	var position = origen
 	var direccionDisparo = 1
 	var puedeDisparar = true
 	
-	method image() { return "pepita.png" }
+	method image() { return image }
 	method position() { return position }
 	method position(x,y) { position = game.at(x,y) }
 	method habilitarDisparo() { puedeDisparar = true }
@@ -27,7 +28,7 @@ class Personaje {
 		keyboard.up().onPressDo { self.moverArriba() }
 		keyboard.down().onPressDo { self.moverAbajo() }*/
 		
-		keyboard.a().onPressDo { self.moverIzquierda()  }
+		keyboard.a().onPressDo { self.moverIzquierda() }
 		keyboard.d().onPressDo { self.moverDerecha() }
 		keyboard.w().onPressDo { self.moverArriba() }
 		keyboard.s().onPressDo { self.moverAbajo() }
@@ -40,12 +41,14 @@ class Personaje {
 		const pos = utilidades.clamp(position.x() - velocidad, topeAncho, true)
 		self.position(pos, position.y())
 		direccionDisparo = -1
+		image = "sprites/submarinoL.png"
 	}
 	
 	method moverDerecha() {
 		const pos = utilidades.clamp(position.x() + velocidad, topeAncho, true)
 		self.position(pos, position.y())
 		direccionDisparo = 1
+		image = "sprites/submarinoD.png"
 	}
 	
 	method moverArriba() {
@@ -74,8 +77,8 @@ class Personaje {
 	}
 	
 	method chocarCon(objeto) { 
-		if(objeto.className() == "personaje.tester") self.perderVida() // ver qué poner depende del tipo de enemigo (va type?)
-		else if(objeto.className() == "Buzo") self.recoger(objeto.puntos()) 
+		if(objeto.esEnemigo()) self.perderVida() // ver qué poner depende del tipo de enemigo (va type?)
+		else objeto.salvado() 
 	}
 	
 	method perderVida() { 
@@ -91,7 +94,7 @@ class Personaje {
 		gameManager.updateOxygen(oxigeno)
 	}
 	
-	method recoger(puntaje) {gameManager.aumentarPuntaje(puntaje) }
+	method recoger(puntaje) {gameManager.aumentarPuntaje(puntaje) } // quitar metodo
 	
 	method morir() {gameManager.gameOver()}
 	
@@ -99,6 +102,7 @@ class Personaje {
 		game.addVisual(self)
 		game.onCollideDo(self, { algo => self.chocarCon(algo) })
 		self.controladorDeMovimiento()
+		gameManager.updateLife(vidas)
 		game.onTick(2000, "Oxigeno", { self.controladorDeOxigeno(5, 19) })
 	}
 	
@@ -111,13 +115,3 @@ object utilidades {
 }
 
 const personaje = new Personaje()
-
-
-class Buzo{
-	var property estaEnEscena = false
-	var position 
-	
-	method image() { return "buzo.png" }
-	method position() { return position }
-	method puntos() = 5 
-}
