@@ -10,7 +10,6 @@ class Enemigo {
 	var estaALaIzq = self.position().x() < game.center().x() 
 	var velocidad = 0
 	var tickID = ""
-	var image = ""
 	
 	var property nombre
 	var property framesAnimacion
@@ -19,6 +18,8 @@ class Enemigo {
 	method image() = animacion.image()
 	
 	method position() = position
+	
+	method estaALaIzq() = estaALaIzq
 	
 	method movimiento() { 
 		if(estaALaIzq){
@@ -35,6 +36,7 @@ class Enemigo {
 		game.removeVisual(self)
 		animacion.removeTick()
 		game.removeTickEvent(tickID)
+		console.println("Muerto: " + nombre)
 	}
 	
 	
@@ -55,14 +57,13 @@ class Enemigo {
 	method inicializar(){    // 
 		tickID = self.crearTickID()
 		game.addVisual(self)
-		estaALaIzq = self.position().x() < game.center().x() 
 		game.onTick(velocidad, tickID, { => self.movimiento()})
 		game.onCollideDo(self, { algo => self.chocarCon(algo) }) // *
 		
 	}
 	
 	method saleDelTablero(){ // elimina al enemigo al salir del tablero
-		if (position.x() < -3 or position.x() > game.width() + 3) self.morir() 
+		if (position.x() < 0 or position.x() > game.width()) self.morir() 
 	}
 }
 
@@ -89,12 +90,12 @@ class Tiburon inherits Enemigo(nombre = "tiburon", framesAnimacion = 3){
 	
 	
 	method crearTick() { // id para la remora
-		tickLanzamiento= self.className() + 0.randomUpTo(999).toString() + 0.randomUpTo(999).toString()
+		tickLanzamiento = self.className() + 0.randomUpTo(999).toString() + 0.randomUpTo(999).toString()
 	}
 	
 	method crearRemora() {  // Instanciar/crear la remora 
 		self.cambioEstadoDisparo()
-		var remora = new Remora(position = self.position(), velocidad = 100, disparadaPor = self)
+		var remora = new Remora(position = self.position(), velocidad = 300, disparadaPor = self, estaALaIzq = self.estaALaIzq())
 		remora.inicializar()
 		
 	}
@@ -109,6 +110,7 @@ class Tiburon inherits Enemigo(nombre = "tiburon", framesAnimacion = 3){
 	
 	override method inicializar(){ 
 		super()
+		self.crearTick()
 		self.cadenciaDisparo()
 	}
 	
@@ -124,9 +126,6 @@ class Remora inherits Enemigo(nombre = "remora", framesAnimacion = 2){
 		super()
 		disparadaPor.cambioEstadoDisparo()
 	}
-	
-	
-	
 	
 	
 }
