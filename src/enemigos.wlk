@@ -63,7 +63,7 @@ class Enemigo {
 	}
 	
 	method saleDelTablero(){ // elimina al enemigo al salir del tablero
-		if (position.x() < 0 or position.x() > game.width()) self.morir() 
+		if (position.x() < -3 or position.x() > game.width() + 3) self.morir() 
 	}
 }
 
