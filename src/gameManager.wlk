@@ -24,6 +24,7 @@ object gameManager {
 	method menu(){
 		self.restartScore()
 		musicPlayer.playIngameMusic1()
+		fxPlayer.playBubbles()
 		uiController.startUI()
 		keyboard.enter().onPressDo { if(!uiController.gameStarted() && !uiController.diffMenu()) self.difficultySelection()}
 	}
@@ -38,6 +39,7 @@ object gameManager {
 		difficulty = estaEnFacil
 		uiController.startGame()
 		personaje.inicializar()
+		var divers = [new Buzo(position = game.at(30, 40), velocidad = 2000)]
 		new Tiburon(position = game.at(25, 40), velocidad = 1000).inicializar()
 		new Tiburon(position = game.at(75, 20), velocidad = 1000).inicializar()
 		new PezEspada(position = game.at(60, 30), velocidad = 200).inicializar()
@@ -52,7 +54,7 @@ object gameManager {
 	}
 	
 	method aumentarPuntaje(points){ 
-		score = 999.max(score+points)
+		score = 999.min(score+points)
 		uiController.updateScore(score)
 	}
 	
