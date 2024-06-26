@@ -64,6 +64,8 @@ class Enemigo {
 	method saleDelTablero(){ // elimina al enemigo al salir del tablero
 		if (position.x() < -3 or position.x() > game.width() + 3) self.morir() 
 	}
+	
+	method esEnemigo() = true
 }
 
                                      // ------------------------------------------------------------------ 
@@ -149,16 +151,10 @@ class Kraken inherits Enemigo{
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+class Buzo inherits Enemigo(nombre = "buzo", framesAnimacion = 2){
+	override method destruidoPorElPlayer(){
+		super()
+		gameManager.aumentarPuntaje(-5) 
+	}
+	override method esEnemigo() = false
+}
