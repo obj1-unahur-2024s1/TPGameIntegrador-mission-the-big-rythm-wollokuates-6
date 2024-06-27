@@ -1,5 +1,5 @@
 import wollok.game.*
-import personaje.*
+import personaje.utilidades
 
 class Proyectil {
 	const direccion
@@ -30,13 +30,10 @@ class Proyectil {
 	method destruir() {
 		game.removeTickEvent(tickID)
 		game.removeVisual(self)
-		personaje.habilitarDisparo()
 	}
 	
 	method crearTickID() {
-		
 		tickID = "moverProyectil" +  0.randomUpTo(99).toString()
-		
 	}
 	
 	method inicializar() {
@@ -46,4 +43,6 @@ class Proyectil {
 		self.disparar()
 	}
 	
+	method esEnemigo() { return false }
+	method salvado() {}
 }
