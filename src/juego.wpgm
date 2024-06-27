@@ -12,7 +12,6 @@ program juego {
 /*
 * kraken
 * spawner de kraken
-* parar sonido burbujas
 * area de deteccion
 * limites de movimiento de jugador y limite de spawn de enemigos
 * ver valores de velocidades
