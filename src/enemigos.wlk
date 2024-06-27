@@ -2,6 +2,7 @@ import wollok.game.*
 import gameManager.*
 import proyectil.*
 import animaciones.*
+import sensores.*
 
 
 class Enemigo {
@@ -11,11 +12,14 @@ class Enemigo {
 	var velocidad = 0
 	var tickID = ""
 	
+	
 	var property nombre
 	var property framesAnimacion
 	const animacion = new Animacion(nombreEntidad = nombre, cantidadFrames = framesAnimacion, idAnimacion = self.crearTickID(), direccion = if (estaALaIzq) "D" else "L")
 	
 	method image() = animacion.image()
+	
+	method frame() = animacion.frame()
 	
 	method position() = position
 	
@@ -59,6 +63,7 @@ class Enemigo {
 		game.addVisual(self)
 		game.onTick(velocidad, tickID, { => self.movimiento()})
 		game.onCollideDo(self, { algo => self.chocarCon(algo) }) // *
+		
 		
 	}
 	
@@ -116,6 +121,7 @@ class Tiburon inherits Enemigo(nombre = "tiburon", framesAnimacion = 3){
 		self.cadenciaDisparo()
 	}
 	
+	
 }
 
 							// ------------------------------------------------------------------ 
@@ -128,8 +134,6 @@ class Remora inherits Enemigo(nombre = "remora", framesAnimacion = 2){
 		super()
 		disparadaPor.cambioEstadoDisparo()
 	}
-	
-
 }
 
 							// ------------------------------------------------------------------ 
@@ -146,12 +150,36 @@ class PezEspada inherits Enemigo(nombre = "pezespada", framesAnimacion = 3){
 							// ------------------------------------------------------------------ 
 									
 class Kraken inherits Enemigo{
-    method cambiarDeLado() 
-	method dispararProyectil()
+	var tickTentaculos = "" // TO DO 
+	
+	override method movimiento(){}
+	method crearTickTentaculos(){}
+	override method chocarCon(objeto) {} 
+	
+	method crearTentaculo(){
+		//var tentaculo = new Tentaculos()
+	}
+	
+	method cadenciaDisparo(){  
+		game.onTick(1000, tickTentaculos, { => self.crearTentaculo() } )
+	}
+	
 	
 }
 
+class Tentaculos inherits Enemigo{
+	// TO DO
+	override method chocarCon(objeto){}
+	
+	method serDestruido(){
+		if(self.frame() == 12){
+			game.removeVisual(self)
+			animacion.removeTick()
+		}
+	}
+}
 
+							// -----------------------------------------------------------------
 class Buzo inherits Enemigo(nombre = "buzo", framesAnimacion = 2){
 	override method destruidoPorElPlayer(){
 		super()

@@ -77,9 +77,9 @@ class Personaje {
 	}
 	
 	method chocarCon(objeto) { 
-		if(objeto.esEnemigo()) self.perderVida() // ver qué poner depende del tipo de enemigo (va type?)
-		else objeto.salvado() 
-	}
+        if(objeto.esEnemigo() or (objeto.esTentaculo() and objeto.frame() == 10)) self.perderVida()
+        else objeto.salvado() 
+    }
 	
 	method perderVida() { 
 		vidas = (vidas - 1).max(0)

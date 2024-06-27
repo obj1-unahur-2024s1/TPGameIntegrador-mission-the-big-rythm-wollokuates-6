@@ -8,6 +8,8 @@ class Animacion {
 	var property direccion
 	const idAnimacion
 	
+	method frame() = frame
+	
 	method siguienteFrame() {
 		if (frame < cantidadFrames) frame += 1 else frame = 1
 	}
