@@ -6,7 +6,7 @@ import animaciones.*
 
 class Enemigo {
 	var vida = 1
-	var position
+	var position = self.randomPosition()
 	var estaALaIzq = self.position().x() < game.center().x() 
 	var velocidad = 0
 	var tickID = ""
@@ -20,6 +20,14 @@ class Enemigo {
 	method position() = position
 	
 	method estaALaIzq() = estaALaIzq
+	
+	method velocidad() = velocidad
+	
+	method randomPosition(){
+		var posicionY = 3.randomUpTo(55).truncate(0)
+		var posicionX= if(1.randomUpTo(100).truncate(0) > 50) 0 else game.width()
+		return game.at(posicionX,posicionY)
+	}
 	
 	method movimiento() { 
 		if(estaALaIzq){
@@ -97,7 +105,7 @@ class Tiburon inherits Enemigo(nombre = "tiburon", framesAnimacion = 3){
 	
 	method crearRemora() {  // Instanciar/crear la remora 
 		self.cambioEstadoDisparo()
-		var remora = new Remora(position = self.position(), velocidad = 300, disparadaPor = self, estaALaIzq = self.estaALaIzq())
+		var remora = new Remora(position = self.position(), velocidad = velocidad/2, disparadaPor = self, estaALaIzq = self.estaALaIzq())
 		remora.inicializar()
 		
 	}

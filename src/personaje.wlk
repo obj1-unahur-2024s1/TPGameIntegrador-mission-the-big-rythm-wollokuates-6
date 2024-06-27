@@ -77,7 +77,7 @@ class Personaje {
 	}
 	
 	method chocarCon(objeto) { 
-		if(objeto.esEnemigo()) self.perderVida() // ver qué poner depende del tipo de enemigo (va type?)
+		if(objeto.esEnemigo()) self.perderVida()
 		else objeto.salvado() 
 	}
 	

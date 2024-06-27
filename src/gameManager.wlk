@@ -6,8 +6,17 @@ import userInterface.*
 import enemigos.*
 
 object gameManager {
-	var difficulty
 	var score
+	var music
+	var fx
+	var interface
+	var sharkSpeed
+	var sharkSpawnerSpeed
+	var swordfishSpeed
+	var swordfishSpawnerSpeed
+	var diverSpeed
+	var diverSpawnerSpeed
+	var flag = true
 	
 	method start(){
 		self.config()
@@ -22,63 +31,101 @@ object gameManager {
 	}	
 	
 	method menu(){
+		music =new MusicPlayer()
+		fx = new FxPlayer()
+		interface = new UserInterface()
 		self.restartScore()
+		score = 29
+		music.playIngameMusic1()
+		fx.playBubbles()
 		keyboard.p().onPressDo {
-        	musicPlayer.volumeUp()
-        	fxPlayer.volumeUp()
+        	music.volumeUp()
+        	fx.volumeUp()
     	}
     	keyboard.l().onPressDo {
-        	musicPlayer.volumeDown()
-        	fxPlayer.volumeDown()
+        	music.volumeDown()
+        	fx.volumeDown()
     	}
-		musicPlayer.playIngameMusic1()
-		fxPlayer.playBubbles()
-		uiController.startUI()
-		keyboard.enter().onPressDo { if(!uiController.gameStarted() && !uiController.diffMenu()) self.difficultySelection()}
+		interface.startUI()
+		keyboard.enter().onPressDo { if(!interface.gameStarted() && !interface.diffMenu()) self.difficultySelection()}
 	}
 	
 	method difficultySelection(){
-		uiController.startDifficultySelector()
-		keyboard.num1().onPressDo { if(!uiController.gameStarted()) self.startGame(true) }
-		keyboard.num2().onPressDo { if(!uiController.gameStarted()) self.startGame(false) }
+		interface.startDifficultySelector()
+		keyboard.num1().onPressDo { if(!interface.gameStarted()) self.startGame(true) }
+		keyboard.num2().onPressDo { if(!interface.gameStarted()) self.startGame(false) }
 	}
 	
-	method startGame(estaEnFacil){
-		difficulty = estaEnFacil
-		uiController.startGame()
-		personaje.inicializar()
-		var divers = [new Buzo(position = game.at(30, 40), velocidad = 2000)]
-		new Tiburon(position = game.at(25, 40), velocidad = 1000).inicializar()
-		new Tiburon(position = game.at(75, 20), velocidad = 1000).inicializar()
-		new PezEspada(position = game.at(60, 30), velocidad = 200).inicializar()
-		new PezEspada(position = game.at(30, 20), velocidad = 200).inicializar()
+	method startGame(esFacil){
+		interface.startGame()
+		new Personaje().inicializar()
+		self.configAndPlayEnemys(esFacil)
+		keyboard.t().onPressDo{self.gameOver()}
 	}
 	
-	//TO DO: cambiar el clean porque rompe todo, usar un metodo que saque solamente lo necesario
+	method configAndPlayEnemys(esFacil){
+		if(esFacil){
+			diverSpeed = 1200
+			diverSpawnerSpeed = 6000
+			swordfishSpeed = 700
+			swordfishSpawnerSpeed = 5000
+			sharkSpeed = 1000
+			sharkSpawnerSpeed = 5000
+		}else {
+			diverSpeed = 300
+			diverSpawnerSpeed = 6000
+			swordfishSpeed = 100
+			swordfishSpawnerSpeed = 5000
+			sharkSpeed = 250
+			sharkSpawnerSpeed = 5000
+		}
+		game.onTick(swordfishSpawnerSpeed,"spawnSwordfish",{=>self.spawnerSwordFish()})
+		game.onTick(diverSpawnerSpeed,"spawnBuzo",{=>self.sparnerDiver()})
+	}
+	
+	method spawnerSwordFish(){
+		new PezEspada(velocidad = swordfishSpeed).inicializar()
+	}
+	method spawnerShark(){
+		new Tiburon(velocidad = swordfishSpeed).inicializar()
+	}
+	method sparnerDiver(){
+		new Buzo(velocidad = diverSpeed).inicializar()
+	}
+	
 	method gameOver(){
-		musicPlayer.stopAllMusic()
+		flag=true
+		music.stopAllMusic()
 		game.clear()
 		self.menu()
+		game.removeTickEvent("spawnBuzo")
+		game.removeTickEvent("spawnPezEspada")
+		game.removeTickEvent("spawnTiburon")
 	}
 	
-	method aumentarPuntaje(points){ 
-		score = 999.min(score+points)
-		uiController.updateScore(score)
+	method aumentarPuntaje(points){
+		score = if(points<0) 0.max(score+points) else 9999.min(score+points)
+		interface.updateScore(score)
+		
+		if(flag and score>=30) {
+			game.onTick(sharkSpawnerSpeed,"spawnShark",{=>self.spawnerShark()})
+			flag = false
+		}
 	}
 	
 	method score() = score
 	
 	method restartScore() { 
 		score = 0
-		uiController.updateScore(score)
+		interface.updateScore(score)
 	}
 	
 	method updateLife(lifes){
-		uiController.updateLifes(lifes)
+		interface.updateLifes(lifes)
 	}
 	
 	method updateOxygen(oxygen){
-		uiController.updateOxygen(oxygen)
+		interface.updateOxygen(oxygen)
 	}
 }
 
