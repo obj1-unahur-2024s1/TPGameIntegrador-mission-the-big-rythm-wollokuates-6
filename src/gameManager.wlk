@@ -76,11 +76,13 @@ object gameManager {
 			sharkSpawnerSpeed = 5000
 		}else {
 			diverSpeed = 300
-			diverSpawnerSpeed = 6000
+			diverSpawnerSpeed = 15000
+			
 			swordfishSpeed = 100
-			swordfishSpawnerSpeed = 5000
+			swordfishSpawnerSpeed = 12000
+			
 			sharkSpeed = 250
-			sharkSpawnerSpeed = 5000
+			sharkSpawnerSpeed = 10000
 		}
 		game.onTick(swordfishSpawnerSpeed,"spawnSwordfish",{=>self.spawnerSwordFish()})
 		game.onTick(diverSpawnerSpeed,"spawnBuzo",{=>self.spawnerDiver()})

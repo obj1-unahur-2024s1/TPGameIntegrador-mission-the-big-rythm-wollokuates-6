@@ -44,7 +44,7 @@ class Enemigo {
     }
 
     method posicionPar(){
-        var posicionY = 2.randomUpTo(50).truncate(0)
+        var posicionY = 4.randomUpTo(50).truncate(0)
         if(!posicionY.even()) posicionY =self.posicionPar()
         return posicionY
     }
