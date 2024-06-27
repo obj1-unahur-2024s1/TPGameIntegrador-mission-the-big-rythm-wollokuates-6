@@ -2,6 +2,7 @@ import wollok.game.*
 import gameManager.*
 import proyectil.*
 import animaciones.*
+import sounds.*
 
 
 class Enemigo {
@@ -95,6 +96,7 @@ class Tiburon inherits Enemigo(nombre = "tiburon", framesAnimacion = 3){
 	
 	override method destruidoPorElPlayer(){ // destruye al enemigo y aumenta el puntaje
 		super()
+		fxPlayer.playEnemyDie1()
 		gameManager.aumentarPuntaje(5) 
 	}
 	
@@ -146,6 +148,7 @@ class PezEspada inherits Enemigo(nombre = "pezespada", framesAnimacion = 3){
 	// TO DO
 	override method destruidoPorElPlayer(){ // destruye al enemigo y aumenta el puntaje
 		super()
+		fxPlayer.playEnemyDie2()
 		gameManager.aumentarPuntaje(3) 
 	}
 }
