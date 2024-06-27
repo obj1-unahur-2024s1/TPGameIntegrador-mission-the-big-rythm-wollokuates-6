@@ -1,7 +1,9 @@
 import wollok.game.*
 import proyectil.*
 import gameManager.*
+import enemigos.*
 import sounds.*
+
 
 class Personaje {
 	
@@ -67,15 +69,16 @@ class Personaje {
 	}
 	
 	method controladorDeOxigeno(valor){
-		oxigeno = if(position.y() < topeAlto) (oxigeno - valor).max(0) else (oxigeno + valor).min(100)
+		oxigeno = if(position.y() < topeAlto) (oxigeno - valor).max(0) else (oxigeno + valor + 5).min(100)
 		gameManager.updateOxygen(oxigeno)
 		if(oxigeno == 0) self.perderVida()
 	}
 	
 	method chocarCon(objeto) { 
-		if(objeto.esEnemigo() or (objeto.esTentaculo() and objeto.frame() == 11)) self.perderVida()
-		else objeto.salvado() 
-	}
+        if(objeto.esEnemigo()) self.perderVida()
+        else objeto.salvado() 
+    }
+
 	
 	method perderVida() { 
 		vidas = (vidas - 1).max(0)
