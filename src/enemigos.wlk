@@ -180,11 +180,19 @@ class PezEspada inherits Enemigo(nombre = "pezespada", framesAnimacion = 3){
 class Kraken inherits Enemigo (nombre = "kraken", framesAnimacion = 1){
 	 
 	var puedePegar = true
+	var contador = 0
 
 	
 	override method movimiento(){}
 	override method chocarCon(objeto) {} 
 	override method destruidoPorElPlayer(){}
+	
+	method aumentarContador(){
+		contador += 1
+		if(contador == 10){
+			self.morir()
+		}
+	}
 	
 	method habilitarLanzamiento(){ // puede lanzar tentáculo.
 		puedePegar = true
@@ -194,7 +202,7 @@ class Kraken inherits Enemigo (nombre = "kraken", framesAnimacion = 1){
 		tickID = self.className() + 0.randomUpTo(99).toString() + 0.randomUpTo(99).toString()
 	}
 	
-	override method randomPosition() = game.at(game.width() - 30, 0)
+	override method randomPosition() = game.at(game.width() - 25, 0)
 	
 	method crearTentaculo(){
 		if(puedePegar){
@@ -205,6 +213,13 @@ class Kraken inherits Enemigo (nombre = "kraken", framesAnimacion = 1){
 	
 	method cadenciaLanzamiento(){  
 		game.onTick(1000, tickID, {  self.crearTentaculo() } )
+	}
+	
+	override method morir(){
+		game.removeVisual(self)
+		animacionBoss.removeTick()
+		game.removeTickEvent(tickID)
+		musicPlayer.playIngameMusic1()
 	}
 	
 	override method inicializar(){
@@ -225,7 +240,6 @@ class Tentaculos inherits Enemigo (nombre = "tentaculo", framesAnimacion = 12){
 	// TO DO
 	var kraken 
 	
-	
 	override method chocarCon(objeto){}
 	override method movimiento(){}
 	
@@ -239,6 +253,7 @@ class Tentaculos inherits Enemigo (nombre = "tentaculo", framesAnimacion = 12){
 			kraken.habilitarLanzamiento() 
 			gameManager.aumentarPuntaje(1)
 			game.removeTickEvent("deteccionMuerte")
+			kraken.aumentarContador()
 		}
 	}
 	
@@ -251,7 +266,7 @@ class Tentaculos inherits Enemigo (nombre = "tentaculo", framesAnimacion = 12){
     override method inicializar(){
     	animacionBoss.inicializar()
     	game.addVisual(self)
-    	game.onTick(1, "deteccionMuerte", {=> self.serDestruido()})
+    	game.onTick(300, "deteccionMuerte", {=> self.serDestruido()})
     }
     
     override method image() = animacionBoss.image()

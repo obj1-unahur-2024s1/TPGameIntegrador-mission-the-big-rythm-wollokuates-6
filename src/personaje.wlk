@@ -69,7 +69,7 @@ class Personaje {
 	}
 	
 	method controladorDeOxigeno(valor){
-		oxigeno = if(position.y() < topeAlto) (oxigeno - valor).max(0) else (oxigeno + valor).min(100)
+		oxigeno = if(position.y() < topeAlto) (oxigeno - valor).max(0) else (oxigeno + valor + 5).min(100)
 		gameManager.updateOxygen(oxigeno)
 		if(oxigeno == 0) self.perderVida()
 	}

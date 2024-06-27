@@ -15,6 +15,7 @@ object gameManager {
 	var diverSpeed
 	var diverSpawnerSpeed
 	var flag = true
+	var contador = 1
 	
 	method start(){
 		self.config()
@@ -31,12 +32,11 @@ object gameManager {
 	method menu(){
 		interface = new UserInterface()
 		self.restartScore()
+		contador = 1
 
-		
-		//music.playIngameMusic1()
 		fxPlayer.playBubbles()
 
-		score = 29
+		score = 98
 		musicPlayer.playMenuMusic()
 
 		keyboard.p().onPressDo {
@@ -83,8 +83,8 @@ object gameManager {
 			sharkSpawnerSpeed = 5000
 		}
 		game.onTick(swordfishSpawnerSpeed,"spawnSwordfish",{=>self.spawnerSwordFish()})
-		game.onTick(diverSpawnerSpeed,"spawnBuzo",{=>self.sparnerDiver()})
-		new Kraken().inicializar()
+		game.onTick(diverSpawnerSpeed,"spawnBuzo",{=>self.spawnerDiver()})
+		
 	}
 	
 	method spawnerSwordFish(){
@@ -93,20 +93,22 @@ object gameManager {
 	method spawnerShark(){
 		new Tiburon(velocidad = swordfishSpeed).inicializar()
 	}
-	method sparnerDiver(){
+	method spawnerDiver(){
 		new Buzo(velocidad = diverSpeed).inicializar()
 	}
-	
+	 
 	method gameOver(){
 		flag=true
-		//music.stopAllMusic()
+		
 		musicPlayer.stopAllMusic()
 		fxPlayer.stopBubbles()
 		game.clear()
 		self.menu()
+		console.println("terminado")
 		game.removeTickEvent("spawnBuzo")
 		game.removeTickEvent("spawnPezEspada")
 		game.removeTickEvent("spawnTiburon")
+		
 	}
 	
 	method aumentarPuntaje(points){
@@ -116,7 +118,11 @@ object gameManager {
 		if(flag and score>=30) {
 			game.onTick(sharkSpawnerSpeed,"spawnShark",{=>self.spawnerShark()})
 			flag = false
-		} 
+		} else if (score >= 100 * contador){
+			contador += 1
+			new Kraken().inicializar()
+			musicPlayer.playBossMusic()
+		}
 	}
 	
 	method score() = score

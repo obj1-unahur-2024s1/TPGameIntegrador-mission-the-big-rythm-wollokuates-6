@@ -28,6 +28,6 @@ class Animacion {
 class AnimacionTentaculo inherits Animacion{
 	override method image() = "sprites/" + nombreEntidad + frame.toString() + ".png"
 	override method inicializar() {
-		game.onTick(50, "animacion" + idAnimacion , {self.siguienteFrame()})
+		game.onTick(100, "animacion" + idAnimacion , {self.siguienteFrame()})
 	}
 }
