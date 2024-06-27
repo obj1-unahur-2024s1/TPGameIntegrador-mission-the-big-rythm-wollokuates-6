@@ -67,20 +67,24 @@ object gameManager {
 		if(esFacil){
 			diverSpeed = 1200
 			diverSpawnerSpeed = 6000
+			
 			swordfishSpeed = 700
 			swordfishSpawnerSpeed = 5000
+			
 			sharkSpeed = 1000
 			sharkSpawnerSpeed = 5000
 		}else {
 			diverSpeed = 300
 			diverSpawnerSpeed = 6000
+			
 			swordfishSpeed = 100
 			swordfishSpawnerSpeed = 5000
+			
 			sharkSpeed = 250
 			sharkSpawnerSpeed = 5000
 		}
 		game.onTick(swordfishSpawnerSpeed,"spawnSwordfish",{=>self.spawnerSwordFish()})
-		game.onTick(diverSpawnerSpeed,"spawnBuzo",{=>self.sparnerDiver()})
+		game.onTick(diverSpawnerSpeed,"spawnBuzo",{=>self.spawnerDiver()})
 	}
 	
 	method spawnerSwordFish(){
@@ -89,7 +93,7 @@ object gameManager {
 	method spawnerShark(){
 		new Tiburon(velocidad = swordfishSpeed).inicializar()
 	}
-	method sparnerDiver(){
+	method spawnerDiver(){
 		new Buzo(velocidad = diverSpeed).inicializar()
 	}
 	
