@@ -157,27 +157,34 @@ class PezEspada inherits Enemigo(nombre = "pezespada", framesAnimacion = 3){
 
 							// ------------------------------------------------------------------ 
 									
-class Kraken inherits Enemigo{
+class Kraken inherits Enemigo (nombre = "kraken", framesAnimacion = 1){
 	var tickTentaculos = "" // TO DO 
 	
 	override method movimiento(){}
-	method crearTickTentaculos(){}
 	override method chocarCon(objeto) {} 
-	
-	method crearTentaculo(){
-		//var tentaculo = new Tentaculos()
+	override method destruidoPorElPlayer(){}
+	method crearTickTentaculos(){
+		tickTentaculos = self.className() + 0.randomUpTo(99).toString() + 0.randomUpTo(99).toString()
 	}
 	
-	method cadenciaDisparo(){  
+	override method randomPosition() = game.at(5,5)
+	
+	method crearTentaculo(){
+		var tentaculo = new Tentaculos()    
+	}
+	
+	method cadenciaLanzamiento(){  
 		game.onTick(1000, tickTentaculos, { => self.crearTentaculo() } )
 	}
 	
 	
 }
 
-class Tentaculos inherits Enemigo{
+class Tentaculos inherits Enemigo (nombre = "tentaculo", framesAnimacion = 12){
 	// TO DO
+	 
 	override method chocarCon(objeto){}
+	override method movimiento(){}
 	
 	method serDestruido(){
 		if(self.frame() == 12){
