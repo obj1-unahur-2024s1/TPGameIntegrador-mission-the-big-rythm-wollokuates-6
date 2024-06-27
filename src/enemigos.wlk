@@ -157,6 +157,7 @@ class PezEspada inherits Enemigo(nombre = "pezespada", framesAnimacion = 3){
 
 							// ------------------------------------------------------------------ 
 									
+
 class Kraken inherits Enemigo (nombre = "kraken", framesAnimacion = 1){
 	var tickTentaculos = "" // TO DO 
 	
@@ -176,9 +177,8 @@ class Kraken inherits Enemigo (nombre = "kraken", framesAnimacion = 1){
 	method cadenciaLanzamiento(){  
 		game.onTick(1000, tickTentaculos, { => self.crearTentaculo() } )
 	}
-	
-	
 }
+
 
 class Tentaculos inherits Enemigo (nombre = "tentaculo", framesAnimacion = 12){
 	// TO DO

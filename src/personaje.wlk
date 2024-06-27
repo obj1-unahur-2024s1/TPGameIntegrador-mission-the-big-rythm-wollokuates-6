@@ -71,12 +71,9 @@ class Personaje {
 	}
 	
 	method chocarCon(objeto) { 
-
         if(objeto.esEnemigo() or (objeto.esTentaculo() and objeto.frame() == 10)) self.perderVida()
         else objeto.salvado() 
     }
-
-
 
 	
 	method perderVida() { 
