@@ -16,11 +16,18 @@ class Animacion {
 	
 	method image() = "sprites/" + nombreEntidad + direccion + frame.toString() + ".png"
 	
-	method initialize() {
+	method inicializar() {
 		game.onTick(300, "animacion" + idAnimacion , {self.siguienteFrame()})
 	}
 	
 	method removeTick() {
 		game.removeTickEvent("animacion" + idAnimacion)
+	}
+}
+
+class AnimacionTentaculo inherits Animacion{
+	override method image() = "sprites/" + nombreEntidad + frame.toString() + ".png"
+	override method inicializar() {
+		game.onTick(50, "animacion" + idAnimacion , {self.siguienteFrame()})
 	}
 }

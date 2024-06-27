@@ -1,6 +1,7 @@
 import wollok.game.*
 import proyectil.*
 import gameManager.*
+import enemigos.*
 
 class Personaje {
 	
@@ -71,7 +72,7 @@ class Personaje {
 	}
 	
 	method chocarCon(objeto) { 
-        if(objeto.esEnemigo() or (objeto.esTentaculo() and objeto.frame() == 10)) self.perderVida()
+        if(objeto.esEnemigo()) self.perderVida()
         else objeto.salvado() 
     }
 

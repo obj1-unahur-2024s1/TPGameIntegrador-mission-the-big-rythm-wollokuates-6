@@ -35,8 +35,8 @@ object gameManager {
 		fx = new FxPlayer()
 		interface = new UserInterface()
 		self.restartScore()
-		score = 29
-		music.playIngameMusic1()
+		score = 95
+		//music.playIngameMusic1()
 		fx.playBubbles()
 		keyboard.p().onPressDo {
         	music.volumeUp()
@@ -81,6 +81,7 @@ object gameManager {
 		}
 		game.onTick(swordfishSpawnerSpeed,"spawnSwordfish",{=>self.spawnerSwordFish()})
 		game.onTick(diverSpawnerSpeed,"spawnBuzo",{=>self.sparnerDiver()})
+		new Kraken().inicializar()
 	}
 	
 	method spawnerSwordFish(){
@@ -95,7 +96,7 @@ object gameManager {
 	
 	method gameOver(){
 		flag=true
-		music.stopAllMusic()
+		//music.stopAllMusic()
 		game.clear()
 		self.menu()
 		game.removeTickEvent("spawnBuzo")
@@ -110,7 +111,7 @@ object gameManager {
 		if(flag and score>=30) {
 			game.onTick(sharkSpawnerSpeed,"spawnShark",{=>self.spawnerShark()})
 			flag = false
-		}
+		} 
 	}
 	
 	method score() = score
