@@ -41,7 +41,7 @@ class MusicPlayer{
 		self.setAndPlay(ingameMusic1,2,true,musicVolume,150)
 	}
 	method playBossMusic(){
-		bossMusic = game.sound("audio/music/MainThemeSeaQ.mp3")
+		bossMusic = game.sound("audio/music/KrakenTheme.mp3")
 		self.setAndPlay(bossMusic,3,true,musicVolume,20)
 	}
 	method playGameOverMusic(){
@@ -74,20 +74,29 @@ class FxPlayer {
 	//de reproducirse, queden sin referencia y se las lleve el recolector de basura (verificar)
 	
 	method playShoot(){self.setAndPlay(game.sound("audio/sfx/Shoot.mp3"),false,sfxVolume)}
+	method playBip(){self.setAndPlay(game.sound("audio/sfx/BipEdit.mp3"),false,sfxVolume)}
+	method playOxigen(){self.setAndPlay(game.sound("audio/sfx/Oxigen.mp3"),false,sfxVolume)}
+	
 	method playPlayerDie(){self.setAndPlay(game.sound("audio/sfx/PlayerDie.mp3"),false,sfxVolume)}
 	method playEnemyDie1(){self.setAndPlay(game.sound("audio/sfx/EnemyDie1.mp3"),false,sfxVolume)}
 	method playEnemyDie2(){self.setAndPlay(game.sound("audio/sfx/EnemyDie2.mp3"),false,sfxVolume)}
+	method playTentacleAlarm(){self.setAndPlay(game.sound("audio/sfx/TentacleAlarm.mp3"),false,sfxVolume)}
 	method playKrakenAttack(){self.setAndPlay(game.sound("audio/sfx/KrakenAttack.mp3"),false,sfxVolume)}
 	method playKrakenDie(){self.setAndPlay(game.sound("audio/sfx/KrakenDie.mp3"),false,sfxVolume)}
 	
-	method delayBubble(){
+	
+	method setAndPlayBubble(){
 		const bubbleSound = game.sound("audio/sfx/Bubble.mp3")
-		const delay = new Range(start = 3000, end = 9000).anyOne()
 		bubbleSound.shouldLoop(false)
 		bubbleSound.volume(sfxVolume)
-		game.schedule(delay, {bubbleSound.play()})
+		bubbleSound.play()
+	}
+	method delayBubble(){
+		const delay = new Range(start = 3000, end = 9000).anyOne()
+		game.schedule(delay, {self.setAndPlayBubble()})
 	}
 	method playBubbles(){game.onTick(3500, "playBubble", { => self.delayBubble() })}
+	method stopBubbles(){game.removeTickEvent("playBubble")}
 	
 	method volumeUp(){sfxVolume = (if (sfxVolume >= 0.2) (sfxVolume + 0.2) else (sfxVolume + 0.1)).min(1)}
 	method volumeDown(){sfxVolume = (if (sfxVolume > 0.2) (sfxVolume - 0.2) else (sfxVolume - 0.1)).max(0)}
