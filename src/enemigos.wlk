@@ -24,9 +24,15 @@ class Enemigo {
 	method velocidad() = velocidad
 	
 	method randomPosition(){
-		var posicionY = 3.randomUpTo(55).truncate(0)
+		var posicionY = self.posicionPar()	
 		var posicionX= if(1.randomUpTo(100).truncate(0) > 50) 0 else game.width()
 		return game.at(posicionX,posicionY)
+	}
+	
+	method posicionPar(){
+		var posicionY = 2.randomUpTo(50).truncate(0)
+		if(!posicionY.even()) posicionY =self.posicionPar()
+		return posicionY
 	}
 	
 	method movimiento() { 

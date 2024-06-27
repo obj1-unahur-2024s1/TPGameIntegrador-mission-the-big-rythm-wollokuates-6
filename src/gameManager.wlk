@@ -17,6 +17,7 @@ object gameManager {
 	var diverSpeed
 	var diverSpawnerSpeed
 	var flag = true
+	var multiple = 1
 	
 	method start(){
 		self.config()
@@ -36,6 +37,7 @@ object gameManager {
 		interface = new UserInterface()
 		self.restartScore()
 		score = 29
+		multiple = 1
 		music.playIngameMusic1()
 		fx.playBubbles()
 		keyboard.p().onPressDo {
@@ -114,6 +116,9 @@ object gameManager {
 		if(flag and score>=30) {
 			game.onTick(sharkSpawnerSpeed,"spawnShark",{=>self.spawnerShark()})
 			flag = false
+		}else if(score > 100*multiple){
+			multiple += 1
+			
 		}
 	}
 	
