@@ -1,6 +1,7 @@
 import wollok.game.*
 import proyectil.*
 import gameManager.*
+import sounds.*
 
 class Personaje {
 	
@@ -60,6 +61,7 @@ class Personaje {
 		if(puedeDisparar) {
 			const proyectil = new Proyectil(direccion = direccionDisparo, position = position )
 			proyectil.inicializar()
+			fxPlayer.playShoot()
 			puedeDisparar = false
 		}
 	}

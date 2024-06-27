@@ -7,8 +7,6 @@ import enemigos.*
 
 object gameManager {
 	var score
-	var music
-	var fx
 	var interface
 	var sharkSpeed
 	var sharkSpawnerSpeed
@@ -31,20 +29,16 @@ object gameManager {
 	}	
 	
 	method menu(){
-		music =new MusicPlayer()
-		fx = new FxPlayer()
 		interface = new UserInterface()
 		self.restartScore()
 		score = 29
-		music.playIngameMusic1()
-		fx.playBubbles()
 		keyboard.p().onPressDo {
-        	music.volumeUp()
-        	fx.volumeUp()
+        	musicPlayer.volumeUp()
+        	fxPlayer.volumeUp()
     	}
     	keyboard.l().onPressDo {
-        	music.volumeDown()
-        	fx.volumeDown()
+        	musicPlayer.volumeDown()
+        	fxPlayer.volumeDown()
     	}
 		interface.startUI()
 		keyboard.enter().onPressDo { if(!interface.gameStarted() && !interface.diffMenu()) self.difficultySelection()}
@@ -58,6 +52,8 @@ object gameManager {
 	
 	method startGame(esFacil){
 		interface.startGame()
+		musicPlayer.playIngameMusic1()
+		fxPlayer.playBubbles()
 		new Personaje().inicializar()
 		self.configAndPlayEnemys(esFacil)
 		keyboard.t().onPressDo{self.gameOver()}
@@ -95,7 +91,8 @@ object gameManager {
 	
 	method gameOver(){
 		flag=true
-		music.stopAllMusic()
+		musicPlayer.stopAllMusic()
+		fxPlayer.stopBubbles()
 		game.clear()
 		self.menu()
 		game.removeTickEvent("spawnBuzo")
