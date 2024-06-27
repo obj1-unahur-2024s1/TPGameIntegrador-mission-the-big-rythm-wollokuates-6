@@ -1,5 +1,61 @@
 import wollok.game.*
 
+object utilidadUI {
+	
+	const numbersDict = new Dictionary()
+	
+	method initialize() {
+		numbersDict.put("0", 0)
+		numbersDict.put("1", 1)
+		numbersDict.put("2", 2)
+		numbersDict.put("3", 3)
+		numbersDict.put("4", 4)
+		numbersDict.put("5", 5)
+		numbersDict.put("6", 6)
+		numbersDict.put("7", 7)
+		numbersDict.put("8", 8)
+		numbersDict.put("9", 9)
+	}
+	
+	method stringToInt(stringNumbers) {
+		
+		const integers = []
+		const numbers = stringNumbers.split("")
+		const index = (0..numbers.size() - 1)
+		index.forEach({i => integers.add(self.charToInt(numbers.get(i)))})
+		
+		return self.finalNumber(integers)
+	}
+	
+	method charToInt(charNumber) {
+		return numbersDict.get(charNumber)
+	}
+	
+	method finalNumber(integersList) {
+		var number = 0
+		const list = integersList
+		integersList.forEach({ 
+			int => 
+			number += self.mathOperation(list.first(), list.size())
+			list.remove(int)
+		})
+		return number
+	}
+	
+	method mathOperation(intNumber, listLength) {
+		var number = intNumber
+		(listLength - 1).times({ i => number = number * 10 })
+		
+		return number
+	}
+	
+	method numberStringToList(string) {
+		const newList = []
+		self.stringToInt(string).times({i => newList.add(i)})
+		return newList
+	}
+}
+
 class UserInterface {
 	var gameStarted = false
 	var diffMenu = false
@@ -14,10 +70,10 @@ class UserInterface {
 
 	//Score Label
 	const scoreLabel = new TextImage(image = "UI/Text/score.png", position = game.center().up(27).left(3))
-	const thousandNumberScore = new PointNumber(position = game.center().up(25).left(3))
-	const hundredNumberScore = new PointNumber(position = game.center().up(25).left(1))
-	const dozensNumberScore = new PointNumber(position = game.center().up(25).right(1))
 	const unitNumberScore = new PointNumber(position = game.center().up(25).right(3))
+	const dozensNumberScore = new PointNumber(position = game.center().up(25).right(1))
+	const hundredNumberScore = new PointNumber(position = game.center().up(25).left(1))
+	const thousandNumberScore = new PointNumber(position = game.center().up(25).left(3))
 
 	//Oxygen Label
 	const oxygenLabel = new TextImage(image = "UI/Text/oxygen.png", position = game.center().down(28).left(48))
@@ -31,6 +87,8 @@ class UserInterface {
 	const easyLabel = new TextImage(image = "UI/Text/easy.png", position = game.center().up(2).left(6))
 	const hardLabel = new TextImage(image = "UI/Text/hard.png", position = game.center().down(2).left(6))
 	
+	const scoreLabels = [unitNumberScore, dozensNumberScore, hundredNumberScore, thousandNumberScore]
+	
 	//--Methods--
 	method changeBackground(newImage) {
 		game.boardGround(newImage)
@@ -39,17 +97,12 @@ class UserInterface {
 	method startUI() {
 		self.changeBackground("UI/Backgrounds/mainBackground.png")
 		self.showHideMainScreen()
-		
-		//keyboard.enter().onPressDo { if(!gameStarted && !diffMenu) self.startDifficultySelector() }
 	}
 	
 	method startDifficultySelector() {
 		diffMenu = true
 		self.showHideMainScreen()
 		self.showHideSelectDifficulty()
-		
-		/*keyboard.num1().onPressDo { if(!gameStarted) self.startGame() }
-		keyboard.num2().onPressDo { if(!gameStarted) self.startGame() } */
 	}
 	
 	method startGame() {
@@ -61,11 +114,19 @@ class UserInterface {
 	}
 	
 	method updateScore(newScore) {
-		const newScoreString = newScore.toString().reverse() + "000"
-		unitNumberScore.number(newScoreString.charAt(0))
-		dozensNumberScore.number(newScoreString.charAt(1))
-		hundredNumberScore.number(newScoreString.charAt(2))
-		thousandNumberScore.number(newScoreString.charAt(3))
+		var newScoreString = newScore.toString()
+		const scoreLenght = newScoreString.size()
+		newScoreString = newScoreString.reverse() + if(scoreLenght < 5) "000" else ""
+		
+		if(scoreLenght > scoreLabels.size()) {
+			(0..scoreLenght - scoreLabels.size() - 1).forEach({x => 
+				scoreLabels.add(new PointNumber(position = game.center().up(25).left(3 + 2 * (scoreLabels.size() + 1 - 4))))
+				scoreLabels.last().toggleVisibility()
+			})
+		}
+		
+		var i = 0
+		scoreLabels.forEach({x => x.number(newScoreString.charAt(i)) i = i + 1})
 	}
 	
 	method updateOxygen(newValue) {
@@ -88,7 +149,8 @@ class UserInterface {
 	}
 	
 	method showHideScoreCounter() {
-		self.toggleVisibilityAll([scoreLabel, thousandNumberScore, hundredNumberScore, dozensNumberScore, unitNumberScore])
+		scoreLabel.toggleVisibility()
+		self.toggleVisibilityAll(scoreLabels)
 	}
 	
 	method showHideOxygenCounter() {
@@ -99,7 +161,7 @@ class UserInterface {
 		self.toggleVisibilityAll([selectLabel, pressNumLabel, easyLabel, hardLabel])
 	}
 	
-	method toggleVisibilityAll(toggleList){
+	method toggleVisibilityAll(toggleList) {
 		toggleList.forEach({x => x.toggleVisibility()})
 	}
 	
