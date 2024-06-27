@@ -4,10 +4,13 @@ import gameManager.*
 
 class Personaje {
 	
-	const origen = game.at(50, 58)
-	const topeAncho = 98
-	const topeAlto = 58
+	const origen = game.at(50, 50)
+	const topeAncho = 96
+	const topeAlto = 50
 	const velocidad = 2
+	const tickDeDisparo = 2500
+	const tickDeOxigeno = 2000
+	const oxigenoPorTick = 5
 	
 	var image = "sprites/submarinoD.png"
 	var vidas = 3
@@ -22,19 +25,11 @@ class Personaje {
 	method habilitarDisparo() { puedeDisparar = true }
 	
 	method controladorDeMovimiento() {
-		
-		/*keyboard.left().onPressDo { self.moverIzquierda() }
-		keyboard.right().onPressDo { self.moverDerecha() }
-		keyboard.up().onPressDo { self.moverArriba() }
-		keyboard.down().onPressDo { self.moverAbajo() }*/
-		
 		keyboard.a().onPressDo { self.moverIzquierda() }
 		keyboard.d().onPressDo { self.moverDerecha() }
 		keyboard.w().onPressDo { self.moverArriba() }
 		keyboard.s().onPressDo { self.moverAbajo() }
-		
 		keyboard.space().onPressDo { self.disparar() }
-		
 	}
 	
 	method moverIzquierda() {
@@ -69,15 +64,14 @@ class Personaje {
 		}
 	}
 	
-	method controladorDeOxigeno(valor, superficie){
+	method controladorDeOxigeno(valor){
 		oxigeno = if(position.y() < topeAlto) (oxigeno - valor).max(0) else (oxigeno + valor).min(100)
 		gameManager.updateOxygen(oxigeno)
 		if(oxigeno == 0) self.perderVida()
-		console.println("Oxigeno: " + oxigeno)
 	}
 	
 	method chocarCon(objeto) { 
-		if(objeto.esEnemigo()) self.perderVida()
+		if(objeto.esEnemigo() or (objeto.esTentaculo() and objeto.frame() == 11)) self.perderVida()
 		else objeto.salvado() 
 	}
 	
@@ -85,7 +79,6 @@ class Personaje {
 		vidas = (vidas - 1).max(0)
 		gameManager.updateLife(vidas)
 		if(vidas == 0) self.morir() else self.reset()
-		console.println("Perdiste una vida, te quedan: " + vidas)
 	}
 	
 	method reset(){
@@ -103,7 +96,8 @@ class Personaje {
 		game.onCollideDo(self, { algo => self.chocarCon(algo) })
 		self.controladorDeMovimiento()
 		gameManager.updateLife(vidas)
-		game.onTick(2000, "Oxigeno", { self.controladorDeOxigeno(5, 19) })
+		game.onTick(tickDeOxigeno, "Oxigeno", { self.controladorDeOxigeno(oxigenoPorTick) })
+		game.onTick(tickDeDisparo, "Disparo", { self.habilitarDisparo() })
 	}
 	
 }

@@ -74,7 +74,8 @@ class UserInterface {
 	const dozensNumberScore = new PointNumber(position = game.center().up(25).right(1))
 	const hundredNumberScore = new PointNumber(position = game.center().up(25).left(1))
 	const thousandNumberScore = new PointNumber(position = game.center().up(25).left(3))
-
+	const scoreLabels = [unitNumberScore, dozensNumberScore, hundredNumberScore, thousandNumberScore]
+	
 	//Oxygen Label
 	const oxygenLabel = new TextImage(image = "UI/Text/oxygen.png", position = game.center().down(28).left(48))
 	const hundredNumberOxy = new PointNumber(position = game.center().down(28).left(38))
@@ -87,7 +88,14 @@ class UserInterface {
 	const easyLabel = new TextImage(image = "UI/Text/easy.png", position = game.center().up(2).left(6))
 	const hardLabel = new TextImage(image = "UI/Text/hard.png", position = game.center().down(2).left(6))
 	
-	const scoreLabels = [unitNumberScore, dozensNumberScore, hundredNumberScore, thousandNumberScore]
+	//Controls Instructions
+	const movementLabel = new TextImage(image = "UI/Controls/wasd-label.png", position = game.center().down(22).left(50))
+	const movementControls = new TextImage(image = "UI/Controls/wasd.png", position = game.center().down(29).left(43))
+	const shootLabel = new TextImage(image = "UI/Controls/space-label.png", position = game.center().down(22).left(10))
+	const shootControls = new TextImage(image = "UI/Controls/space.png", position = game.center().down(28).left(3))
+	const volumeLabel = new TextImage(image = "UI/Controls/volume-label.png", position = game.center().down(22).right(20))
+	const volumeUp = new TextImage(image = "UI/Controls/letter-p.png", position = game.center().down(28).right(30))
+	const volumeDown = new TextImage(image = "UI/Controls/letter-l.png", position = game.center().down(28).right(36))
 	
 	//--Methods--
 	method changeBackground(newImage) {
@@ -141,7 +149,7 @@ class UserInterface {
 	}
 	
 	method showHideMainScreen() {
-		self.toggleVisibilityAll([pressEnterLabel, gameTitle])
+		self.toggleVisibilityAll([pressEnterLabel, gameTitle, movementControls, shootControls, volumeUp, volumeDown, movementLabel, shootLabel, volumeLabel])
 	}
 	
 	method showHideLifeCounter() {

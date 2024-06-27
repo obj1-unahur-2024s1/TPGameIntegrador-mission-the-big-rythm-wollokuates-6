@@ -159,6 +159,7 @@ class Kraken inherits Enemigo{
 	method spawnearEnemigo()
 	method dispararProyectil()
 	method ataqueTentaculo()
+	
 }
 
 
