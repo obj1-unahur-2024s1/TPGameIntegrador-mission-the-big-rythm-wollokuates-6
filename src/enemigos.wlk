@@ -194,7 +194,7 @@ class Kraken inherits Enemigo (nombre = "kraken", framesAnimacion = 1){
 		tickID = self.className() + 0.randomUpTo(99).toString() + 0.randomUpTo(99).toString()
 	}
 	
-	override method randomPosition() = game.at(5,5)
+	override method randomPosition() = game.at(game.width() - 30, 0)
 	
 	method crearTentaculo(){
 		if(puedePegar){
