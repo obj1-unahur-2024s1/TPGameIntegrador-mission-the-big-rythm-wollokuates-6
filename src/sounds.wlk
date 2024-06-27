@@ -33,7 +33,7 @@ class MusicPlayer{
 	//Nota: Hay que volver cargar el audio (crear el objeto y referenciarlo a la var) antes de reproducirlo porque Wollok no permite
 	//reproducir un objeto de audio que, aunque esté en stop, haya sido ya reproducido.
 	method playMenuMusic(){
-		menuMusic = game.sound("audio/music/MainThemeSeaQ.mp3")
+		menuMusic = game.sound("audio/music/MenuMusic.mp3")
 		self.setAndPlay(menuMusic,1,true,musicVolume,20)
 	}
 	method playIngameMusic1(){

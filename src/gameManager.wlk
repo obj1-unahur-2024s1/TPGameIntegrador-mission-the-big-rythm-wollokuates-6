@@ -32,6 +32,7 @@ object gameManager {
 		interface = new UserInterface()
 		self.restartScore()
 		score = 29
+		musicPlayer.playMenuMusic()
 		keyboard.p().onPressDo {
         	musicPlayer.volumeUp()
         	fxPlayer.volumeUp()
