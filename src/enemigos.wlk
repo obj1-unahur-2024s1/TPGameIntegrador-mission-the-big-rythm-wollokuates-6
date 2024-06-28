@@ -181,7 +181,7 @@ class Kraken inherits Enemigo (nombre = "kraken", framesAnimacion = 4){
 	 
 	var puedePegar = true
 	var contador = 0
-
+	const personajeReferencia
 	
 	override method movimiento(){}
 	override method chocarCon(objeto) {} 
@@ -206,7 +206,7 @@ class Kraken inherits Enemigo (nombre = "kraken", framesAnimacion = 4){
 	
 	method crearTentaculo(){
 		if(puedePegar){
-			new Tentaculos(kraken = self).inicializar() 
+			new Tentaculos(kraken = self, personajeReferencia = personajeReferencia).inicializar() 
 			puedePegar = false
 		}   
 	}
@@ -239,6 +239,8 @@ class Kraken inherits Enemigo (nombre = "kraken", framesAnimacion = 4){
 class Tentaculos inherits Enemigo (nombre = "tentaculo", framesAnimacion = 12){
 	// TO DO
 	var kraken 
+	const personajeReferencia
+	const cadenciaDeGolpe = 1000
 	
 	override method chocarCon(objeto){}
 	override method movimiento(){}
@@ -267,7 +269,8 @@ class Tentaculos inherits Enemigo (nombre = "tentaculo", framesAnimacion = 12){
     	animacionBoss.inicializar()
     	game.addVisual(self)
     	fxPlayer.playKrakenAttack()
-    	game.onTick(300, "deteccionMuerte", {=> self.serDestruido()})
+    	game.onTick(30, "deteccionMuerte", {=> self.serDestruido()})
+    	game.schedule(cadenciaDeGolpe, { personajeReferencia.recibirAtaqueDeTentaculo(position.y()) })
     }
     
     override method image() = animacionBoss.image()
