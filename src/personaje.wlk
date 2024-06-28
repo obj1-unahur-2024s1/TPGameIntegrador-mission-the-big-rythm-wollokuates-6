@@ -22,7 +22,7 @@ class Personaje {
 	var direccionDisparo = 1
 	var puedeDisparar = true
 	
-	var sensores = []
+	const sensores = []
 	
 	method image() { return image }
 	method position() { return position }
@@ -115,6 +115,12 @@ class Personaje {
 	method recoger(puntaje) {gameManager.aumentarPuntaje(puntaje) } // quitar metodo
 	
 	method morir() {gameManager.gameOver()}
+	
+	method recibirAtaqueDeTentaculo(pos) {
+		
+		if(position.y().between(pos - 2, pos + 8)) self.perderVida()
+		
+	}
 	
 	method inicializar() {
 		self.crearSensores(3,3)

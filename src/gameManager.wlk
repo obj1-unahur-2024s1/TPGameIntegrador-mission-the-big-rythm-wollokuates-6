@@ -16,6 +16,7 @@ object gameManager {
 	var diverSpawnerSpeed
 	var flag = true
 	var contador = 18
+	var personajeReferencia
 	
 	method start(){
 		self.config()
@@ -58,7 +59,8 @@ object gameManager {
 		interface.startGame()
 		musicPlayer.playIngameMusic1()
 		fxPlayer.playBubbles()
-		new Personaje().inicializar()
+		personajeReferencia = new Personaje()
+		personajeReferencia.inicializar()
 		self.configAndPlayEnemys(esFacil)
 		keyboard.t().onPressDo{self.gameOver()}
 	}
@@ -124,7 +126,7 @@ object gameManager {
 			flag = false
 		} else if (score >= 100 * contador){
 			contador += 1
-			new Kraken().inicializar()
+			new Kraken(personajeReferencia = personajeReferencia).inicializar()
 			musicPlayer.playBossMusic()
 		}
 	}
