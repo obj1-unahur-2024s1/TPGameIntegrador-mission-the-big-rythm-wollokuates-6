@@ -117,7 +117,7 @@ class Tiburon inherits Enemigo(nombre = "tiburon", framesAnimacion = 3){
 	
 	override method destruidoPorElPlayer(){ // destruye al enemigo y aumenta el puntaje
 		super()
-		fxPlayer.playEnemyDie1()
+		fxPlayer.playEnemyDie2()
 		gameManager.aumentarPuntaje(5) 
 	}
 	
@@ -169,7 +169,7 @@ class PezEspada inherits Enemigo(nombre = "pezespada", framesAnimacion = 3){
 	override method destruidoPorElPlayer(){ // destruye al enemigo y aumenta el puntaje
 		super()
 		gameManager.aumentarPuntaje(5) 
-		fxPlayer.playEnemyDie2()	 
+		fxPlayer.playEnemyDie1()	 
 	}
 }
 
@@ -266,6 +266,7 @@ class Tentaculos inherits Enemigo (nombre = "tentaculo", framesAnimacion = 12){
     override method inicializar(){
     	animacionBoss.inicializar()
     	game.addVisual(self)
+    	fxPlayer.playKrakenAttack()
     	game.onTick(300, "deteccionMuerte", {=> self.serDestruido()})
     }
     
