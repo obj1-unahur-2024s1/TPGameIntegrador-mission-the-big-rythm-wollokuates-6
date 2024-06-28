@@ -2,7 +2,11 @@ import wollok.game.*
 import gameManager.*
 import proyectil.*
 import animaciones.*
+
+import sensores.*
+
 import sounds.*
+
 
 
 class Enemigo {
@@ -12,11 +16,20 @@ class Enemigo {
 	var velocidad = 0
 	var tickID = ""
 	
+	
 	var property nombre
 	var property framesAnimacion
-	const animacion = new Animacion(nombreEntidad = nombre, cantidadFrames = framesAnimacion, idAnimacion = self.crearTickID(), direccion = if (estaALaIzq) "D" else "L")
+	const animacion = new Animacion(nombreEntidad = nombre, cantidadFrames = framesAnimacion, idAnimacion 
+		= self.crearTickID(), direccion = if (estaALaIzq) "D" else "L")
+	const animacionBoss = new AnimacionTentaculo(nombreEntidad = nombre, cantidadFrames = framesAnimacion, idAnimacion = self.crearTickID(), direccion = "")
+	
+	method esTentaculo() = false
+	
+	method salvado(){}
 	
 	method image() = animacion.image()
+	
+	method frame() = animacion.frame()
 	
 	method position() = position
 	
@@ -25,10 +38,16 @@ class Enemigo {
 	method velocidad() = velocidad
 	
 	method randomPosition(){
-		var posicionY = 3.randomUpTo(55).truncate(0)
-		var posicionX= if(1.randomUpTo(100).truncate(0) > 50) 0 else game.width()
-		return game.at(posicionX,posicionY)
-	}
+        var posicionY = self.posicionPar()
+        var posicionX= if(1.randomUpTo(100).truncate(0) > 50) 0 else game.width()
+        return game.at(posicionX,posicionY)
+    }
+
+    method posicionPar(){
+        var posicionY = 4.randomUpTo(50).truncate(0)
+        if(!posicionY.even()) posicionY =self.posicionPar()
+        return posicionY
+    }
 	
 	method movimiento() { 
 		if(estaALaIzq){
@@ -65,9 +84,11 @@ class Enemigo {
 	
 	method inicializar(){    // 
 		tickID = self.crearTickID()
+		animacion.inicializar()
 		game.addVisual(self)
 		game.onTick(velocidad, tickID, { => self.movimiento()})
 		game.onCollideDo(self, { algo => self.chocarCon(algo) }) // *
+		
 		
 	}
 	
@@ -126,6 +147,7 @@ class Tiburon inherits Enemigo(nombre = "tiburon", framesAnimacion = 3){
 		self.cadenciaDisparo()
 	}
 	
+	
 }
 
 							// ------------------------------------------------------------------ 
@@ -138,8 +160,6 @@ class Remora inherits Enemigo(nombre = "remora", framesAnimacion = 2){
 		super()
 		disparadaPor.cambioEstadoDisparo()
 	}
-	
-
 }
 
 							// ------------------------------------------------------------------ 
@@ -148,28 +168,121 @@ class PezEspada inherits Enemigo(nombre = "pezespada", framesAnimacion = 3){
 	// TO DO
 	override method destruidoPorElPlayer(){ // destruye al enemigo y aumenta el puntaje
 		super()
-		fxPlayer.playEnemyDie2()
-		gameManager.aumentarPuntaje(3) 
+		gameManager.aumentarPuntaje(5) 
+		fxPlayer.playEnemyDie2()	 
 	}
 }
 
 
 							// ------------------------------------------------------------------ 
 									
-class Kraken inherits Enemigo{
-	/* - method cambiarDeLado() ¿?
-	 */
-	method spawnearEnemigo()
-	method dispararProyectil()
-	method ataqueTentaculo()
+
+class Kraken inherits Enemigo (nombre = "kraken", framesAnimacion = 4){
+	 
+	var puedePegar = true
+	var contador = 0
+
 	
+	override method movimiento(){}
+	override method chocarCon(objeto) {} 
+	override method destruidoPorElPlayer(){}
+	
+	method aumentarContador(){
+		contador += 1
+		if(contador == 10){
+			self.morir()
+		}
+	}
+	
+	method habilitarLanzamiento(){ // puede lanzar tentáculo.
+		puedePegar = true
+	}
+	
+	method crearTickTentaculos(){
+		tickID = self.className() + 0.randomUpTo(99).toString() + 0.randomUpTo(99).toString()
+	}
+	
+	override method randomPosition() = game.at(game.width() - 25, 0)
+	
+	method crearTentaculo(){
+		if(puedePegar){
+			new Tentaculos(kraken = self).inicializar() 
+			puedePegar = false
+		}   
+	}
+	
+	method cadenciaLanzamiento(){  
+		game.onTick(1000, tickID, {  self.crearTentaculo() } )
+	}
+	
+	override method morir(){
+		game.removeVisual(self)
+		animacionBoss.removeTick()
+		game.removeTickEvent(tickID)
+		musicPlayer.playIngameMusic1()
+	}
+	
+	override method inicializar(){
+		animacionBoss.inicializar()
+		game.addVisual(self)
+		self.crearTickTentaculos()
+		self.cadenciaLanzamiento()
+		
+		
+	}
+	
+	override method image() = animacionBoss.image()
+	override method frame() = animacionBoss.frame()
 }
 
 
+class Tentaculos inherits Enemigo (nombre = "tentaculo", framesAnimacion = 12){
+	// TO DO
+	var kraken 
+	
+	override method chocarCon(objeto){}
+	override method movimiento(){}
+	
+	override method esTentaculo() = true
+	override method esEnemigo() = false
+	
+	method serDestruido(){
+		if(self.frame() == 12){
+			game.removeVisual(self)
+			animacionBoss.removeTick()
+			kraken.habilitarLanzamiento() 
+			gameManager.aumentarPuntaje(1)
+			game.removeTickEvent("deteccionMuerte")
+			kraken.aumentarContador()
+		}
+	}
+	
+	override method randomPosition(){
+        const x = 0
+        const posicion = [game.at(x,8), game.at(x,16), game.at(x,24), game.at(x,32), game.at(x,40)]
+        return posicion.anyOne()
+    }
+    
+    override method inicializar(){
+    	animacionBoss.inicializar()
+    	game.addVisual(self)
+    	game.onTick(300, "deteccionMuerte", {=> self.serDestruido()})
+    }
+    
+    override method image() = animacionBoss.image()
+	override method frame() = animacionBoss.frame()
+}
+
+							// -----------------------------------------------------------------
 class Buzo inherits Enemigo(nombre = "buzo", framesAnimacion = 2){
 	override method destruidoPorElPlayer(){
 		super()
 		gameManager.aumentarPuntaje(-5) 
 	}
 	override method esEnemigo() = false
+	
+	override method salvado(){
+		gameManager.aumentarPuntaje(5)
+		self.morir()
+	}
 }
