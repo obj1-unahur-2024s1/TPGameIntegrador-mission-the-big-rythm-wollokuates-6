@@ -6,7 +6,7 @@ import userInterface.*
 import enemigos.*
 
 object gameManager {
-	var score
+	var score = 0
 	var interface
 	var sharkSpeed
 	var sharkSpawnerSpeed
@@ -33,7 +33,6 @@ object gameManager {
 	method menu(){
 		interface = new UserInterface()
 		self.restartScore()
-		score = 98
 		contador = 1
 		musicPlayer.playMenuMusic()
 		keyboard.p().onPressDo {
@@ -118,13 +117,13 @@ object gameManager {
 	}
 	
 	method aumentarPuntaje(points){
-		score = if(points<0) 0.max(score+points) else 9999.min(score+points)
+		score = if(points<0) 0.max(score+points) else score + points
 		interface.updateScore(score)
 		
 		if(flag and score>=30) {
 			game.onTick(sharkSpawnerSpeed,"spawnShark",{=>self.spawnerShark()})
 			flag = false
-		} else if (score >= 100 * contador){
+		} else if (score >= 1000 * contador){
 			contador += 1
 			new Kraken(personajeReferencia = personajeReferencia).inicializar()
 			musicPlayer.playBossMusic()
@@ -145,5 +144,7 @@ object gameManager {
 	method updateOxygen(oxygen){
 		interface.updateOxygen(oxygen)
 	}
+	
+	method setterInterface(nuevaInterface) { interface = nuevaInterface }
 }
 

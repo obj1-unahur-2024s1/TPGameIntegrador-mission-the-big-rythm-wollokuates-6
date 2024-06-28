@@ -7,14 +7,3 @@ program juego {
 
 
 }
-
-
-/*
-* area de deteccion
-* 
-* limites de movimiento de jugador y limite de spawn de enemigos
-* 
-* ver valores de velocidades
-* 
-* se rompe algo al llamar el metodo gameOver, ver como saca al player y enemigos del escenario
-*/

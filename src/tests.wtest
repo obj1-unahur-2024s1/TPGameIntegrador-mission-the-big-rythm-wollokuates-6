@@ -1,6 +1,27 @@
+import gameManager.*
+import userInterface.*
+test "Aumento de score" {
 
-test "testX" {
+	gameManager.setterInterface(uiController)
+	gameManager.aumentarPuntaje(5)
+	assert.equals(5, gameManager.score())
 
-	assert.that(true)
+}
 
+test "Reiniciar es score" {
+
+	gameManager.setterInterface(uiController)
+	gameManager.aumentarPuntaje(5)
+	assert.equals(5, gameManager.score())
+	gameManager.restartScore()
+	assert.equals(0, gameManager.score())
+
+}
+
+test "Metodo para pasar de string a int" {
+	
+	var a = "456"
+	a = utilidadUI.stringToInt(a)
+	assert.equals(456, a)
+	
 }
