@@ -86,13 +86,14 @@ class Personaje {
 		if(oxigeno <= 20) fxPlayer.playBip()
 	}
 	
-	method chocarCon(objeto) { 
+	method chocarCon(objeto) {
         if(objeto.esEnemigo()) self.perderVida()
         else objeto.salvado() 
     }
 
 	
 	method perderVida() { 
+		self.ocultarSensores()
 		vidas = (vidas - 1).max(0)
 		gameManager.updateLife(vidas)
 		fxPlayer.playPlayerDie()
@@ -103,6 +104,7 @@ class Personaje {
 		position = origen
 		oxigeno = 100
 		gameManager.updateOxygen(oxigeno)
+		self.resetearSensores()
 	}
 	
 	method recoger(puntaje) {gameManager.aumentarPuntaje(puntaje) } // quitar metodo
@@ -112,8 +114,9 @@ class Personaje {
 	method inicializar() {
 		self.crearSensores(3,3)
 		self.iniciarSensores()
+		self.activarSensores()
 		game.addVisual(self)
-		game.onCollideDo(self, { algo => self.chocarCon(algo) })
+		//game.onCollideDo(self, { algo => self.chocarCon(algo) })
 		self.controladorDeMovimiento()
 		gameManager.updateLife(vidas)
 		game.onTick(tickDeOxigeno, "Oxigeno", { self.controladorDeOxigeno(oxigenoPorTick) })
@@ -128,13 +131,22 @@ class Personaje {
 	}
 	
 	method agregarSensor(i,j){
-		const sensor = new Sensor(position = game.at(position.x()+j,position.y()+i),cuerpo = self)
+		const sensor = new Sensor(position = game.at(position.x()+j,position.y()+i),cuerpo = self, posCuerpo =game.at(j,i))
 		sensores.add(sensor)
 	}
 	method iniciarSensores(){
 		sensores.forEach({sensor => sensor.addVisual()})
+	}
+	method activarSensores(){
 		sensores.forEach({sensor => sensor.activarColision()})
 	}
+	method ocultarSensores() {
+		sensores.forEach({sensor => sensor.removeVisual()}) 		
+  	}
+  	method resetearSensores(){
+  		sensores.forEach({sensor => sensor.reAcomodarSensor()})
+  		self.iniciarSensores()
+  	}
 }
 
 object utilidades {
