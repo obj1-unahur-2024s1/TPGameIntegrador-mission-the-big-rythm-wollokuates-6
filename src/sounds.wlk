@@ -42,12 +42,16 @@ class MusicPlayer{
 	}
 	method playBossMusic(){
 		bossMusic = game.sound("audio/music/KrakenTheme.mp3")
-		self.setAndPlay(bossMusic,3,true,musicVolume,20)
+		self.setAndPlay(bossMusic,3,true,musicVolume,5)
 	}
+	
+	/*
 	method playGameOverMusic(){
 		gameOverMusic = game.sound("audio/music/MainThemeSeaQ.mp3")
 		self.setAndPlay(gameOverMusic,4,true,musicVolume,20)
 	}
+	*/
+	
 	//DES.: Evaluar si se puede usar loop false en playGameOverMusic(). Ojo que stopAllMusic() puede tirar error.
 	//Necesitaría que al terminar el track, se hiciera nowPlaying = 0 pero como wollok no tiene getter de la reproducción...
 	
