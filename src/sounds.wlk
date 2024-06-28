@@ -74,7 +74,7 @@ class FxPlayer {
 	//de reproducirse, queden sin referencia y se las lleve el recolector de basura (verificar)
 	
 	method playShoot(){self.setAndPlay(game.sound("audio/sfx/Shoot.mp3"),false,sfxVolume)}
-	method playBip(){self.setAndPlay(game.sound("audio/sfx/BipEdit.mp3"),false,sfxVolume)}
+	method playBip(){self.setAndPlay(game.sound("audio/sfx/Bip3.mp3"),false,sfxVolume)}
 	method playOxigen(){self.setAndPlay(game.sound("audio/sfx/Oxigen.mp3"),false,sfxVolume)}
 	
 	method playPlayerDie(){self.setAndPlay(game.sound("audio/sfx/PlayerDie.mp3"),false,sfxVolume)}
