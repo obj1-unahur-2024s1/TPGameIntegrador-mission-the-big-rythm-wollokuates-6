@@ -13,7 +13,6 @@ class Sensor{
 	var position
 	const velocidad = 2
 	
-	method image() { return "proyectil.png"}
 	method position() = position
 	method activarColision(){
 		game.whenCollideDo(self, {element=>cuerpo.chocarCon(element)})
