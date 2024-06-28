@@ -77,10 +77,7 @@ class Enemigo {
 		return self.className() + 0.randomUpTo(999).toString() + 0.randomUpTo(999).toString()
 	}
 	
-	method chocarCon(objeto){ // *
-		if(objeto.className() == "proyectil.Proyectil") self.destruidoPorElPlayer() // 
-		else if(objeto.className() == "player.Player") self.morir()
-	}
+	method chocarCon(objeto){ }
 	
 	method inicializar(){    // 
 		tickID = self.crearTickID()
@@ -243,6 +240,7 @@ class Tentaculos inherits Enemigo (nombre = "tentaculo", framesAnimacion = 12){
 	const cadenciaDeGolpe = 1000
 	
 	override method chocarCon(objeto){}
+	override method destruidoPorElPlayer(){}
 	override method movimiento(){}
 	
 	override method esTentaculo() = true
