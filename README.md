@@ -26,6 +26,7 @@ Cuidado con la falta de oxígeno, cuidado con los peces espada, con los tiburone
 
 ## Otros
 
+- Basado en: Seaquest (1983) - Atari 2600
 - Programación de objetos I - Comisión Rosario - UNaHur
 - Versión de wollok: 3.0.0
 - Una vez terminado, no tenemos problemas en que el repositorio sea público

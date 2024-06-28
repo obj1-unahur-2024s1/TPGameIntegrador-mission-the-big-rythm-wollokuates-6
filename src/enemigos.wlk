@@ -115,7 +115,7 @@ class Tiburon inherits Enemigo(nombre = "tiburon", framesAnimacion = 3){
 	override method destruidoPorElPlayer(){ // destruye al enemigo y aumenta el puntaje
 		super()
 		fxPlayer.playEnemyDie2()
-		gameManager.aumentarPuntaje(5) 
+		gameManager.aumentarPuntaje(70) 
 	}
 	
 	
@@ -165,7 +165,7 @@ class PezEspada inherits Enemigo(nombre = "pezespada", framesAnimacion = 3){
 	// TO DO
 	override method destruidoPorElPlayer(){ // destruye al enemigo y aumenta el puntaje
 		super()
-		gameManager.aumentarPuntaje(5) 
+		gameManager.aumentarPuntaje(50) 
 		fxPlayer.playEnemyDie1()	 
 	}
 }
@@ -186,7 +186,7 @@ class Kraken inherits Enemigo (nombre = "kraken", framesAnimacion = 4){
 	
 	method aumentarContador(){
 		contador += 1
-		if(contador == 10){
+		if(contador == 20){
 			self.morir()
 		}
 	}
@@ -251,7 +251,7 @@ class Tentaculos inherits Enemigo (nombre = "tentaculo", framesAnimacion = 12){
 			game.removeVisual(self)
 			animacionBoss.removeTick()
 			kraken.habilitarLanzamiento() 
-			gameManager.aumentarPuntaje(1)
+			gameManager.aumentarPuntaje(3)
 			game.removeTickEvent("deteccionMuerte")
 			kraken.aumentarContador()
 		}
@@ -279,12 +279,12 @@ class Tentaculos inherits Enemigo (nombre = "tentaculo", framesAnimacion = 12){
 class Buzo inherits Enemigo(nombre = "buzo", framesAnimacion = 2){
 	override method destruidoPorElPlayer(){
 		super()
-		gameManager.aumentarPuntaje(-5) 
+		gameManager.aumentarPuntaje(-100) 
 	}
 	override method esEnemigo() = false
 	
 	override method salvado(){
-		gameManager.aumentarPuntaje(5)
+		gameManager.aumentarPuntaje(80)
 		self.morir()
 	}
 }

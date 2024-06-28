@@ -81,7 +81,7 @@ class Personaje {
 		if (position.y() < topeAlto){
 			oxigeno = (oxigeno - valor).max(0)	
 		} else {
-			oxigeno = (oxigeno + valor).min(100) 
+			oxigeno = (oxigeno + valor * 4).min(100) 
 			fxPlayer.playOxigen()
 		}
 		gameManager.updateOxygen(oxigeno)
@@ -167,7 +167,7 @@ class Personaje {
 
 object utilidades {
 	
-	method clamp(valor, tope, normal) { return if(normal) (valor.min(tope)).max(0) else valor.max(tope) }
+	method clamp(valor, tope, normal) { return if(normal) (valor.min(tope)).max(4) else valor.max(tope) }
 	
 }
 
