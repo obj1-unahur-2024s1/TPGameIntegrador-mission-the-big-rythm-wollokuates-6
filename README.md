@@ -19,9 +19,9 @@
 En Ocean Mission tu objetivo es obtener el mayor puntaje posible explorando las profundidades del océano, rescatando a todos los buzos que puedas y eliminando amenazas antes de que tus vidas se reduzcan a cero.
 Cuidado con la falta de oxígeno, cuidado con los peces espada, con los tiburones, cuidado con el KRAKEN!!!!!!
 
-W-A-S-D: Desplazamiento
-Espacio: Disparar
-P-L: Subir y bajar el volumen
+- W-A-S-D: Desplazamiento
+- Espacio: Disparar
+- P-L: Subir y bajar el volumen
 
 
 ## Otros
