@@ -24,7 +24,11 @@ class Proyectil {
 	method disparar() { game.onTick(velocidadDelDisparo, tickID, { self.controladorDeMovimiento() }) }
 	
 	method chocarCon(objeto) {
-		if(objeto.className() != "personaje.Personaje" and  objeto.className() != "sensor.Sensor") self.destruir()
+		try{
+			objeto.destruidoPorElPlayer()
+			self.destruir()
+		}
+		catch e {}
 	}
 	
 	method destruir() {

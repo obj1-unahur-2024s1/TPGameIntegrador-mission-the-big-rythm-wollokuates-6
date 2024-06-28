@@ -91,8 +91,13 @@ class Personaje {
 	
 	method chocarCon(objeto) {
 		if(objeto != self){
-			if(objeto.esEnemigo()) self.perderVida()
-        	else objeto.salvado() 
+			if(objeto.esEnemigo()){
+				self.perderVida()
+				objeto.morir()
+			} 
+        	else{
+	        	objeto.salvado()         		
+        	} 
 		}
     }
 
