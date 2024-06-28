@@ -39,30 +39,33 @@ class Personaje {
 	
 	method moverIzquierda() {
 		const pos = utilidades.clamp(position.x() - velocidad, topeAncho, true)
+		if(position.x()!=pos) sensores.forEach({sensor => sensor.moverSensorIzquierda()})
 		self.position(pos, position.y())
 		direccionDisparo = -1
 		image = "sprites/submarinoL.png"
-		sensores.forEach({sensor => sensor.moverSensorIzquierda()})
 	}
 	
 	method moverDerecha() {
 		const pos = utilidades.clamp(position.x() + velocidad, topeAncho, true)
+		if(position.x()!=pos) sensores.forEach({sensor => sensor.moverSensorDerecha()})
 		self.position(pos, position.y())
 		direccionDisparo = 1
 		image = "sprites/submarinoD.png"
-		sensores.forEach({sensor => sensor.moverSensorDerecha()})
+		
 	}
 	
 	method moverArriba() {
 		const pos = utilidades.clamp(position.y() + velocidad, topeAlto, true)
+		if(position.y()!=pos) sensores.forEach({sensor => sensor.moverSensorArriba()})
 		self.position(position.x(), pos)
-		sensores.forEach({sensor => sensor.moverSensorArriba()})
+		
 	}
 	
 	method moverAbajo() {
 		const pos = utilidades.clamp(position.y() - velocidad, topeAlto, true)
+		if(position.y()!=pos) sensores.forEach({sensor => sensor.moverSensorAbajo()})
 		self.position(position.x(), pos)
-		sensores.forEach({sensor => sensor.moverSensorAbajo()})
+		
 	}
 	
 	method disparar() {
@@ -157,7 +160,7 @@ object utilidades {
 	
 }
 
-const personaje = new Personaje()
+//const personaje = new Personaje()
 
 
 

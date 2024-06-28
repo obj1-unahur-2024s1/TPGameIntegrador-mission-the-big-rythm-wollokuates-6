@@ -3,13 +3,17 @@ import proyectil.*
 import gameManager.*
 import enemigos.*
 import sounds.*
+import personaje.*
 
 class Sensor{
+	const topeAncho = 96
+	const topeAlto = 50
 	const posCuerpo
 	var cuerpo
 	var position
 	const velocidad = 2
 	
+	method image() { return "proyectil.png"}
 	method position() = position
 	method activarColision(){
 		game.whenCollideDo(self, {element=>cuerpo.chocarCon(element)})
