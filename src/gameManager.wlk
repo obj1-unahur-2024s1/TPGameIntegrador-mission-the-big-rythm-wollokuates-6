@@ -15,7 +15,7 @@ object gameManager {
 	var diverSpeed
 	var diverSpawnerSpeed
 	var flag = true
-	var contador = 1
+	var contador = 18
 	
 	method start(){
 		self.config()
@@ -32,13 +32,11 @@ object gameManager {
 	method menu(){
 		interface = new UserInterface()
 		self.restartScore()
-		contador = 1
-
-		fxPlayer.playBubbles()
-
 		score = 98
+		contador = 1
+		fxPlayer.playBubbles()
 		musicPlayer.playMenuMusic()
-
+		
 		keyboard.p().onPressDo {
         	musicPlayer.volumeUp()
         	fxPlayer.volumeUp()
@@ -47,6 +45,7 @@ object gameManager {
         	musicPlayer.volumeDown()
         	fxPlayer.volumeDown()
     	}
+    	
 		interface.startUI()
 		keyboard.enter().onPressDo { if(!interface.gameStarted() && !interface.diffMenu()) self.difficultySelection()}
 	}
@@ -68,25 +67,26 @@ object gameManager {
 	
 	method configAndPlayEnemys(esFacil){
 		if(esFacil){
-			diverSpeed = 1200
-			diverSpawnerSpeed = 6000
-			swordfishSpeed = 700
-			swordfishSpawnerSpeed = 5000
-			sharkSpeed = 1000
-			sharkSpawnerSpeed = 5000
-		}else {
 			diverSpeed = 300
-			diverSpawnerSpeed = 15000
+			diverSpawnerSpeed = 20000
 			
 			swordfishSpeed = 100
 			swordfishSpawnerSpeed = 12000
 			
 			sharkSpeed = 250
-			sharkSpawnerSpeed = 10000
+			sharkSpawnerSpeed = 15000
+		}else {
+			diverSpeed = 150
+			diverSpawnerSpeed = 20000
+			
+			swordfishSpeed = 50
+			swordfishSpawnerSpeed = 12000
+			
+			sharkSpeed = 75
+			sharkSpawnerSpeed = 15000
 		}
 		game.onTick(swordfishSpawnerSpeed,"spawnSwordfish",{=>self.spawnerSwordFish()})
-		game.onTick(diverSpawnerSpeed,"spawnBuzo",{=>self.spawnerDiver()})
-		
+		game.onTick(diverSpawnerSpeed,"spawnDiver",{=>self.spawnerDiver()})
 	}
 	
 	method spawnerSwordFish(){
@@ -101,15 +101,19 @@ object gameManager {
 	 
 	method gameOver(){
 		flag=true
-		
 		musicPlayer.stopAllMusic()
 		fxPlayer.stopBubbles()
 		game.clear()
 		self.menu()
 		console.println("terminado")
-		game.removeTickEvent("spawnBuzo")
-		game.removeTickEvent("spawnPezEspada")
-		game.removeTickEvent("spawnTiburon")
+		try{
+			game.removeTickEvent("spawnDiver")
+			game.removeTickEvent("spawnSwordfish")
+			game.removeTickEvent("spawnShark")
+		} 
+		catch e: Exception{
+			console.println(e)
+		}
 		
 	}
 	

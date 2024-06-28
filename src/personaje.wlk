@@ -3,7 +3,7 @@ import proyectil.*
 import gameManager.*
 import enemigos.*
 import sounds.*
-
+import sensor.*
 
 class Personaje {
 	
@@ -21,6 +21,8 @@ class Personaje {
 	var position = origen
 	var direccionDisparo = 1
 	var puedeDisparar = true
+	
+	var sensores = []
 	
 	method image() { return image }
 	method position() { return position }
@@ -40,6 +42,7 @@ class Personaje {
 		self.position(pos, position.y())
 		direccionDisparo = -1
 		image = "sprites/submarinoL.png"
+		sensores.forEach({sensor => sensor.moverSensorIzquierda()})
 	}
 	
 	method moverDerecha() {
@@ -47,16 +50,19 @@ class Personaje {
 		self.position(pos, position.y())
 		direccionDisparo = 1
 		image = "sprites/submarinoD.png"
+		sensores.forEach({sensor => sensor.moverSensorDerecha()})
 	}
 	
 	method moverArriba() {
 		const pos = utilidades.clamp(position.y() + velocidad, topeAlto, true)
 		self.position(position.x(), pos)
+		sensores.forEach({sensor => sensor.moverSensorArriba()})
 	}
 	
 	method moverAbajo() {
 		const pos = utilidades.clamp(position.y() - velocidad, topeAlto, true)
 		self.position(position.x(), pos)
+		sensores.forEach({sensor => sensor.moverSensorAbajo()})
 	}
 	
 	method disparar() {
@@ -104,6 +110,8 @@ class Personaje {
 	method morir() {gameManager.gameOver()}
 	
 	method inicializar() {
+		self.crearSensores(3,3)
+		self.iniciarSensores()
 		game.addVisual(self)
 		game.onCollideDo(self, { algo => self.chocarCon(algo) })
 		self.controladorDeMovimiento()
@@ -112,6 +120,21 @@ class Personaje {
 		game.onTick(tickDeDisparo, "Disparo", { self.habilitarDisparo() })
 	}
 	
+	
+	method crearSensores(x,y){
+		(0..x).forEach({
+			i => (0..y).forEach( {j => self.agregarSensor(i,j)})
+		})
+	}
+	
+	method agregarSensor(i,j){
+		const sensor = new Sensor(position = game.at(position.x()+j,position.y()+i),cuerpo = self)
+		sensores.add(sensor)
+	}
+	method iniciarSensores(){
+		sensores.forEach({sensor => sensor.addVisual()})
+		sensores.forEach({sensor => sensor.activarColision()})
+	}
 }
 
 object utilidades {
@@ -121,3 +144,6 @@ object utilidades {
 }
 
 const personaje = new Personaje()
+
+
+
