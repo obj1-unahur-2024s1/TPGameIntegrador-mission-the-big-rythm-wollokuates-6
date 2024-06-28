@@ -177,7 +177,7 @@ class PezEspada inherits Enemigo(nombre = "pezespada", framesAnimacion = 3){
 							// ------------------------------------------------------------------ 
 									
 
-class Kraken inherits Enemigo (nombre = "kraken", framesAnimacion = 1){
+class Kraken inherits Enemigo (nombre = "kraken", framesAnimacion = 4){
 	 
 	var puedePegar = true
 	var contador = 0
