@@ -34,9 +34,7 @@ object gameManager {
 		self.restartScore()
 		score = 98
 		contador = 1
-		fxPlayer.playBubbles()
 		musicPlayer.playMenuMusic()
-		
 		keyboard.p().onPressDo {
         	musicPlayer.volumeUp()
         	fxPlayer.volumeUp()
