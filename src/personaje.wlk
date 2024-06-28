@@ -67,9 +67,16 @@ class Personaje {
 	}
 	
 	method controladorDeOxigeno(valor){
-		oxigeno = if(position.y() < topeAlto) (oxigeno - valor).max(0) else (oxigeno + valor).min(100)
+		if (position.y() < topeAlto){
+			oxigeno = (oxigeno - valor).max(0)	
+		} else {
+			oxigeno = (oxigeno + valor).min(100) 
+			fxPlayer.playOxigen()
+		}
+		
 		gameManager.updateOxygen(oxigeno)
 		if(oxigeno == 0) self.perderVida()
+		if(oxigeno <= 20) fxPlayer.playBip()
 	}
 	
 	method chocarCon(objeto) { 
@@ -80,6 +87,7 @@ class Personaje {
 	method perderVida() { 
 		vidas = (vidas - 1).max(0)
 		gameManager.updateLife(vidas)
+		fxPlayer.playPlayerDie()
 		if(vidas == 0) self.morir() else self.reset()
 	}
 	
